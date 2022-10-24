@@ -1,7 +1,10 @@
 #include "CombatMovement.h"
 
 Entity* CombatMovement::unitsTurn;
-Entity* CombatMovement::selectedTile;
+
+
+CombatMovement::CombatMovement(EntityManager& manager) : entityManager(manager)
+{}
 
 void CombatMovement::update()
 {
@@ -44,4 +47,14 @@ bool CombatMovement::unitCanMoveHere()
 }
 
 void CombatMovement::showMoveRange()
-{}
+{
+	int moveRange = unitsTurn->getComponent<StatsComponent>().currentMove;
+	/*if (!entityManager.getGroup(Game::groupSelectedTile).empty())
+	{
+		for (auto& tile : entityManager.getGroup(Game::groupSelectedTile))
+		{
+			baseTile = tile;
+		}
+		std::cout << "base tile capted at gridpos: " << baseTile->getComponent<TileComponent>().getGridPosition() << std::endl;
+	}*/
+}

@@ -8,12 +8,14 @@ class CombatMovement
 {
 public:
 
+	CombatMovement(EntityManager& manager);
+
 	void update();
 
 	static void move();
 
 	static bool unitCanMoveHere();
-	static void showMoveRange();
+	void showMoveRange();
 
 	
 
@@ -21,10 +23,11 @@ public:
 	static void setUnitsTurn(Entity* setUnitsTurn) { unitsTurn = setUnitsTurn; }
 
 
+	EntityManager& entityManager;
+	//Entity* baseTile = nullptr;
 
 private:
 	static Entity* unitsTurn;
-	static Entity* selectedTile;
 	SDL_Event ev;
 
 };

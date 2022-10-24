@@ -25,7 +25,7 @@ void Game::initialize()
 	windowManager = new WindowManager();
 	keyboardMouse = new Keyboard_Mouse();
 
-	windowManager->initialize("Isometric Tactics", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1200, 800, false);
+	windowManager->initialize("Isometric Tactics", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 960, 740, false);
 	running = windowManager->isInitialized();
 
 	assets->addTexture("testTS", "Assets/testTS.png");

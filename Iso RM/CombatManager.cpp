@@ -5,7 +5,7 @@ combatState CombatManager::state = move;
 
 CombatManager::CombatManager(EntityManager& manager) : entityManager(manager)
 {
-	combatMove = new CombatMovement();
+	CombatMovement* combatMove = new CombatMovement(entityManager);
 }
 
 
