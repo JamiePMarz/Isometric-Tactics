@@ -1,18 +1,24 @@
 #include "Game.h"
 
+WindowManager* windowManager = nullptr;
+SDL_Renderer* WindowManager::renderer = nullptr;
+
 SDL_Event Game::event;
-int Game::mouseX, Game::mouseY;
-IsometricMap* Game::map;
+
+Keyboard_Mouse* keyboardMouse = nullptr;
+int Game::mouseX;
+int Game::mouseY;
+
+AssetManager* Game::assets = new AssetManager;
 
 EntityManager entityManager;
-WindowManager* windowManager = nullptr;
-	SDL_Renderer* WindowManager::renderer = nullptr;
-AssetManager* Game::assets = new AssetManager;
-Keyboard_Mouse* keyboardMouse = nullptr;
-CombatManager* combatManager = new CombatManager(entityManager);
+CombatManager* combatManager = nullptr;
+
+IsometricMap* Game::map;
 
 //move after movement reset deleted
 auto& unit1(entityManager.addEntity());
+
 
 
 Game::Game()
@@ -23,10 +29,12 @@ Game::~Game()
 void Game::initialize()
 {
 	windowManager = new WindowManager();
-	keyboardMouse = new Keyboard_Mouse();
 
 	windowManager->initialize("Isometric Tactics", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 960, 740, false);
 	running = windowManager->isInitialized();
+
+	keyboardMouse = new Keyboard_Mouse();
+	combatManager = new CombatManager(entityManager);
 
 	assets->addTexture("testTS", "Assets/testTS.png");
 	assets->addTexture("placeHolder", "Assets/placeHolderSprite.png");
@@ -41,7 +49,7 @@ void Game::initialize()
 	unit1.addComponent<StatsComponent>();
 	unit1.addGroup(groupUnits);
 
-	combatManager->setUnitsTurn(&unit1);
+	combatManager->setUnitsTurn(&unit1);//temp
 }
 
 
@@ -69,9 +77,8 @@ void Game::handleEvents()
 		{}
 
 		if (SDL_BUTTON_RIGHT == event.button.button)
-		{
-			unit1.getComponent<StatsComponent>().moveReset();
-		}
+		{}
+
 		break;
 
 	default:

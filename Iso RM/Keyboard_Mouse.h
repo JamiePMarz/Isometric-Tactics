@@ -11,10 +11,17 @@ public:
 	~Keyboard_Mouse();
 
 
+	//controls
 	static bool mouseHovers(Vector2D& vector);
 
 	static bool leftClick();
 	static bool rightClick();
+
+	static bool _1click();
+	static bool _2click();
+	static bool _3click();
+	static bool _4click();
+
 
 
 

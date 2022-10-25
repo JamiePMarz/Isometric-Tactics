@@ -11,7 +11,7 @@ struct StatsComponent : public Component
 	void moveReset() 
 	{ 
 		currentMove = maxMove; 
-		std::cout << "current move: " << currentMove << std::endl;
+		//std::cout << "current move: " << currentMove << std::endl;
 	}
 
 };

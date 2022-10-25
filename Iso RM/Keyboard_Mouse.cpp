@@ -48,7 +48,6 @@ bool Keyboard_Mouse::leftClick()
 		return false;
 }
 
-
 bool Keyboard_Mouse::rightClick()
 {
 	if (Game::event.button.button == SDL_BUTTON_RIGHT)
@@ -57,12 +56,42 @@ bool Keyboard_Mouse::rightClick()
 		return false;
 }
 
-
-
 bool Keyboard_Mouse::mouseHovers(Vector2D& vector)
 {
 	if (vector == gridPos || vector == screenPos)
 		return true;
+	else
+		return false;
+}
+
+bool Keyboard_Mouse::_1click()
+{
+	if (Game::event.key.keysym.sym == SDLK_1)
+		return  true;
+	else
+		return false;
+}
+
+bool Keyboard_Mouse::_2click()
+{
+	if (Game::event.key.keysym.sym == SDLK_2)
+		return  true;
+	else
+		return false;
+}
+
+bool Keyboard_Mouse::_3click()
+{
+	if (Game::event.key.keysym.sym == SDLK_3)
+		return  true;
+	else
+		return false;
+}
+
+bool Keyboard_Mouse::_4click()
+{
+	if (Game::event.key.keysym.sym == SDLK_4)
+		return  true;
 	else
 		return false;
 }

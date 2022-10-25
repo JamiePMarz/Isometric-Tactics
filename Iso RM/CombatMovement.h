@@ -2,32 +2,38 @@
 #include "ECS.h"
 #include "Keyboard_Mouse.h"
 #include "Components.h"
+#include "CombatManager.h"
+
+class CombatManager;
 
 
 class CombatMovement
 {
 public:
 
-	CombatMovement(EntityManager& manager);
+	CombatMovement(EntityManager& eManager, CombatManager& cManager);
 
 	void update();
 
-	static void move();
+	void move();
 
-	static bool unitCanMoveHere();
+	bool unitCanMoveHere();
 	void showMoveRange();
+	
+	void unitsTurnF();
 
 	
-
 	//getters and setters
 	static void setUnitsTurn(Entity* setUnitsTurn) { unitsTurn = setUnitsTurn; }
 
 
-	EntityManager& entityManager;
-	//Entity* baseTile = nullptr;
+	//pub vars
+	
+
 
 private:
+	EntityManager& entityManager;
+	CombatManager& combatManager;
 	static Entity* unitsTurn;
-	SDL_Event ev;
 
 };

@@ -1,26 +1,51 @@
 #include "CombatManager.h"
 
-combatState CombatManager::state = move;
-
 
 CombatManager::CombatManager(EntityManager& manager) : entityManager(manager)
 {
-	CombatMovement* combatMove = new CombatMovement(entityManager);
+	CombatMovement* combatMove = new CombatMovement(entityManager, *this);
+	CombatMenu* combatMenu = new CombatMenu(entityManager, *this);
+	std::cout << "state is: " << state << std::endl;
 }
 
 
 void CombatManager::update()
 {
+	if (Keyboard_Mouse::_1click())
+	{
+		std::cout << "state is: move" << state << std::endl;
+		state = move;
+		std::cout << "current move: " << unitsTurn->getComponent<StatsComponent>().currentMove << std::endl;
+	}
+	if (Keyboard_Mouse::_4click())
+	{
+		std::cout << "state is: end" << state << std::endl;
+		state = end;
+	}
+
+	if (Keyboard_Mouse::rightClick())
+	{
+		state = neutral;
+		std::cout << "state is: neutral" << state << std::endl;
+	}
+
+
 	switch (state)
 	{
 	case move:
 		combatMove->update();
 		break;
 
+	case end:
+		endTurn();
+		break;
+
 	default:
 		break;
 	}
 }
+
+
 
 
 void CombatManager::setUnitsTurn(Entity* setUnitsTurn)
@@ -31,6 +56,8 @@ void CombatManager::setUnitsTurn(Entity* setUnitsTurn)
 
 void CombatManager::endTurn()
 {
+	std::cout << "turn ended\n";
 	unitsTurn->getComponent<StatsComponent>().moveReset();
 	//unitsTurn = nextUnit;
+	state = neutral;
 }

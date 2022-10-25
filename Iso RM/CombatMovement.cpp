@@ -3,7 +3,8 @@
 Entity* CombatMovement::unitsTurn;
 
 
-CombatMovement::CombatMovement(EntityManager& manager) : entityManager(manager)
+
+CombatMovement::CombatMovement(EntityManager& eManager, CombatManager& cManager) : entityManager(eManager), combatManager(cManager)
 {}
 
 void CombatMovement::update()
@@ -13,6 +14,7 @@ void CombatMovement::update()
 	{
 		move();
 	}
+
 }
 
 void CombatMovement::move()
@@ -58,3 +60,9 @@ void CombatMovement::showMoveRange()
 		std::cout << "base tile capted at gridpos: " << baseTile->getComponent<TileComponent>().getGridPosition() << std::endl;
 	}*/
 }
+
+
+//void CombatMovement::unitsTurnF()
+//{
+//	unitsTurn = combatManager.getUnitsTurn();
+//} 
