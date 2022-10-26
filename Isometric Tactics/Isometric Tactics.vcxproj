@@ -22,7 +22,7 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{7a1ca97c-449b-4b6f-b13b-314422d9a386}</ProjectGuid>
-    <RootNamespace>IsoRM</RootNamespace>
+    <RootNamespace>Isometric Tactics</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>Isometric Tactics</ProjectName>
   </PropertyGroup>

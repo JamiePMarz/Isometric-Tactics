@@ -17,7 +17,7 @@ void Keyboard_Mouse::setMouseXY(int& mouseX, int& mouseY)
 	gridFromScreen();
 }
 
-void Keyboard_Mouse::gridFromScreen()
+void Keyboard_Mouse::gridFromScreen()//move to vector
 {
 	int scale = IsometricMap::getScaledSize();
 	gridPos.x = std::round((screenPos.x / (scale / 2) + screenPos.y / (scale / 4)) / 2) - 8; //offsets????
@@ -42,7 +42,7 @@ void Keyboard_Mouse::gridFromScreen(Vector2D& grid, Vector2D& screen)
 
 bool Keyboard_Mouse::leftClick()
 {
-	if (Game::event.button.button == SDL_BUTTON_LEFT)
+	if (Game::event.button.button == SDL_BUTTON_LEFT)//add no repeat?
 		return  true;
 	else
 		return false;
@@ -56,7 +56,7 @@ bool Keyboard_Mouse::rightClick()
 		return false;
 }
 
-bool Keyboard_Mouse::mouseHovers(Vector2D& vector)
+bool Keyboard_Mouse::hover(Vector2D& vector)
 {
 	if (vector == gridPos || vector == screenPos)
 		return true;
@@ -64,33 +64,9 @@ bool Keyboard_Mouse::mouseHovers(Vector2D& vector)
 		return false;
 }
 
-bool Keyboard_Mouse::_1click()
+bool Keyboard_Mouse::keyPressed(SDL_KeyCode key)
 {
-	if (Game::event.key.keysym.sym == SDLK_1)
-		return  true;
-	else
-		return false;
-}
-
-bool Keyboard_Mouse::_2click()
-{
-	if (Game::event.key.keysym.sym == SDLK_2)
-		return  true;
-	else
-		return false;
-}
-
-bool Keyboard_Mouse::_3click()
-{
-	if (Game::event.key.keysym.sym == SDLK_3)
-		return  true;
-	else
-		return false;
-}
-
-bool Keyboard_Mouse::_4click()
-{
-	if (Game::event.key.keysym.sym == SDLK_4)
+	if (Game::event.type == SDL_KEYDOWN && Game::event.key.keysym.sym == key && Game::event.key.repeat == 0)
 		return  true;
 	else
 		return false;

@@ -10,8 +10,8 @@ void CombatMenu::update()
 {
 	//std::cout << "menu state is " << option << std::endl;
 
-	if (Keyboard_Mouse::_1click())
-		option = move;
+	/*if (Keyboard_Mouse::_1click())
+		option = move;*/
 
 	switch (option)
 	{

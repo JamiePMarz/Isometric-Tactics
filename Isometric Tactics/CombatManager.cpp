@@ -11,16 +11,16 @@ CombatManager::CombatManager(EntityManager& manager) : entityManager(manager)
 
 void CombatManager::update()
 {
-	if (Keyboard_Mouse::_1click())
+	if (Keyboard_Mouse::keyPressed(SDLK_1))
 	{
-		std::cout << "state is: move" << state << std::endl;
 		state = move;
+		std::cout << "state is: move" << state << std::endl;
 		std::cout << "current move: " << unitsTurn->getComponent<StatsComponent>().currentMove << std::endl;
 	}
-	if (Keyboard_Mouse::_4click())
+	if (Keyboard_Mouse::keyPressed(SDLK_4))
 	{
-		std::cout << "state is: end" << state << std::endl;
 		state = end;
+		std::cout << "state is: end" << state << std::endl;
 	}
 
 	if (Keyboard_Mouse::rightClick())

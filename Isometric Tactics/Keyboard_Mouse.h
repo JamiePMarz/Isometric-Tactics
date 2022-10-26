@@ -1,6 +1,7 @@
 #pragma once
 #include "Vector2D.h"
 #include "IsometricMap.h"
+#include "SDL.h"
 
 
 
@@ -12,15 +13,12 @@ public:
 
 
 	//controls
-	static bool mouseHovers(Vector2D& vector);
+	static bool hover(Vector2D& vector);
 
 	static bool leftClick();
 	static bool rightClick();
 
-	static bool _1click();
-	static bool _2click();
-	static bool _3click();
-	static bool _4click();
+	static bool keyPressed(SDL_KeyCode key);
 
 
 

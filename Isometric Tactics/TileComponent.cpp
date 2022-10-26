@@ -30,7 +30,7 @@ void TileComponent::draw()
 	TextureManager::drawTexture(texture, src, dest, SDL_FLIP_NONE);
 
 
-	if (Keyboard_Mouse::mouseHovers(gridPos) && selectable)
+	if (Keyboard_Mouse::hover(gridPos) && selectable)
 	{
 		TextureManager::drawTileTextures("tile_cusor", dest);
 	}
@@ -51,7 +51,7 @@ void TileComponent::update()
 	if (Keyboard_Mouse::leftClick())
 	{
 		entity->delGroup(Game::groupSelectedTile);
-		if (Keyboard_Mouse::mouseHovers(gridPos) && selectable)
+		if (Keyboard_Mouse::hover(gridPos) && selectable)
 		{
 			entity->addGroup(Game::groupSelectedTile);
 		}

@@ -9,16 +9,15 @@ Keyboard_Mouse* keyboardMouse = nullptr;
 int Game::mouseX;
 int Game::mouseY;
 
-AssetManager* Game::assets = new AssetManager;
+AssetManager* Game::assets = nullptr;
 
 EntityManager entityManager;
 CombatManager* combatManager = nullptr;
 
-IsometricMap* Game::map;
+IsometricMap* Game::map = nullptr;;
 
 //move after movement reset deleted
 auto& unit1(entityManager.addEntity());
-
 
 
 Game::Game()
@@ -29,27 +28,31 @@ Game::~Game()
 void Game::initialize()
 {
 	windowManager = new WindowManager();
-
 	windowManager->initialize("Isometric Tactics", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 960, 740, false);
 	running = windowManager->isInitialized();
 
 	keyboardMouse = new Keyboard_Mouse();
-	combatManager = new CombatManager(entityManager);
-
+	
+	assets = new AssetManager();
+	//add assets func to addtextures
 	assets->addTexture("testTS", "Assets/testTS.png");
 	assets->addTexture("placeHolder", "Assets/placeHolderSprite.png");
 	assets->addTexture("tile_highlighted", "Assets/tile_highlighted.png");
 	assets->addTexture("tile_cusor", "Assets/tile_cusor.png");
+	//
 
 	map = new IsometricMap("testTS", 3, 32);
-	map->loadMap("Assets/textMap_20x15.map", 20, 15);
+	map->loadMap("Assets/textMap_20x15.map", 20, 15);//temp
 	
+	combatManager = new CombatManager(entityManager);
+
+	//temp
 	unit1.addComponent<TransformComponent>(2, 2, 32, 32);
 	unit1.addComponent<SpriteComponent>("placeHolder");
 	unit1.addComponent<StatsComponent>();
 	unit1.addGroup(groupUnits);
-
-	combatManager->setUnitsTurn(&unit1);//temp
+	combatManager->setUnitsTurn(&unit1);
+	//
 }
 
 
