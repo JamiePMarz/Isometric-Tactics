@@ -10,6 +10,8 @@ int IsometricMap::mapHeight;
 IsometricMap::IsometricMap(std::string tID, int ms, int ts) : tileSetID(tID), mapScale(ms), tileSize(ts)
 {
 	scaledSize = ms * ts;
+	Vector2D::scaledSize = scaledSize;
+	Vector2D::scale = mapScale;
 }
 
 IsometricMap::~IsometricMap()
@@ -25,6 +27,7 @@ void IsometricMap::loadMap(std::string path, int width, int height)
 	mapHeight = height;
 	int mapSize = mapWidth * mapHeight;
 	xOffSet = ((mapWidth / 2) + (mapHeight / 4)) * (scaledSize / 2) + scaledSize;
+	Vector2D::mapXOffSet = xOffSet;
 
 	grid.clear();
 	grid.resize(mapSize);

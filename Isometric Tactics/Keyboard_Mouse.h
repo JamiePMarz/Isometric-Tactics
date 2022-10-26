@@ -24,15 +24,10 @@ public:
 
 
 	//getters and setters
-	Vector2D getScreenPos() { return screenPos; }
 	void setMouseXY(int& mouseX, int& mouseY);
 
+	Vector2D getScreenPos() { return screenPos; }
 	static Vector2D& getGridPos() { return gridPos; }
-
-
-	void gridFromScreen();
-	static void screenFromGrid(Vector2D& screen, Vector2D& grid);
-	static void gridFromScreen(Vector2D& grid, Vector2D& screen);
 
 	
 private:

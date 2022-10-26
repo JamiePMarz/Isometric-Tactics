@@ -5,7 +5,7 @@ CombatManager::CombatManager(EntityManager& manager) : entityManager(manager)
 {
 	CombatMovement* combatMove = new CombatMovement(entityManager, *this);
 	CombatMenu* combatMenu = new CombatMenu(entityManager, *this);
-	std::cout << "state is: " << state << std::endl;
+	std::cout << "state is: neutral" << state << std::endl;
 }
 
 

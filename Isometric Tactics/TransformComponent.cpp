@@ -23,10 +23,10 @@ TransformComponent::TransformComponent(int x, int y, int aHeight, int aWidth)
 {
 	gridPos.x = x;
 	gridPos.y = y;
-	Keyboard_Mouse::screenFromGrid(screenPos, gridPos);
+	Vector2D::screenFromGrid(screenPos, gridPos);
 	height = aHeight;
 	width = aWidth;
-	scale = 3; //hardcoded :(
+	scale = Vector2D::scale;
 }
 
 void TransformComponent::initialize()
@@ -44,5 +44,5 @@ void TransformComponent::moveByGrid(Vector2D& grid)
 {
 	gridPos.x = grid.x;
 	gridPos.y = grid.y;
-	Keyboard_Mouse::screenFromGrid(screenPos, gridPos);
+	Vector2D::screenFromGrid(screenPos, gridPos);
 }

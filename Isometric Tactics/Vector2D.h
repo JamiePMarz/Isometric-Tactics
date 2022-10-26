@@ -34,9 +34,16 @@ public:
 	bool operator == (const Vector2D& vector);
 	bool operator != (const Vector2D& vector);
 
+	static void screenFromGrid(Vector2D& screen, Vector2D& grid);
+	static void gridFromScreen(Vector2D& grid, Vector2D& screen);
+
 	//public vars
 	float x;
 	float y;
+
+	static int scaledSize;
+	static int scale;
+	static int mapXOffSet;
 
 private:
 
