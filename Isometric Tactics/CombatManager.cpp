@@ -1,5 +1,8 @@
 #include "CombatManager.h"
 
+IsometricGrid* CombatManager::isoGrid = nullptr;
+IsoMap* CombatManager::isoMap = nullptr;
+
 
 CombatManager::CombatManager(EntityManager& manager) : entityManager(manager)
 {
@@ -8,6 +11,26 @@ CombatManager::CombatManager(EntityManager& manager) : entityManager(manager)
 	std::cout << "state is: neutral" << state << std::endl;
 }
 
+void CombatManager::selectGrid()
+{
+	std::cout << "selecting grid\n";
+}
+
+void CombatManager::startCombat(std::string mapID)
+{
+	isoMap = AssetManager::getIsoMap(mapID);
+	std::cout << "combat starts\n";
+	Game::setGameState(combat);
+	selectGrid();
+	isoGrid = new IsometricGrid(isoMap->tileSet, isoMap->mapScale, isoMap->tileSize);
+	isoGrid->loadGrid(isoMap->mapPath, isoMap->mapWidth, isoMap->mapHeight);
+}
+
+void CombatManager::endCombat()
+{
+	std::cout << "combat ends\n";
+	delete isoGrid;
+}
 
 void CombatManager::update()
 {

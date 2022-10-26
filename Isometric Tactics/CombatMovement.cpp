@@ -1,5 +1,6 @@
 #include "CombatMovement.h"
 
+
 Entity* CombatMovement::unitsTurn;
 
 

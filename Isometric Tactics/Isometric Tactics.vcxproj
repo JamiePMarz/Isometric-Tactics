@@ -139,7 +139,7 @@
     <ClCompile Include="CombatManager.cpp" />
     <ClCompile Include="CombatMovement.cpp" />
     <ClCompile Include="ECS.cpp" />
-    <ClCompile Include="IsometricMap.cpp" />
+    <ClCompile Include="IsometricGrid.cpp" />
     <ClCompile Include="Keyboard_Mouse.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -160,7 +160,8 @@
     <ClInclude Include="Components.h" />
     <ClInclude Include="ECS.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="IsometricMap.h" />
+    <ClInclude Include="IsoMap.h" />
+    <ClInclude Include="IsometricGrid.h" />
     <ClInclude Include="Keyboard_Mouse.h" />
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="StatsComponent.h" />
@@ -173,6 +174,8 @@
   <ItemGroup>
     <Image Include="Assets\collider.png" />
     <Image Include="Assets\iso_square.png" />
+    <Image Include="Assets\map0_ts.png" />
+    <Image Include="Assets\map1_ts.png" />
     <Image Include="Assets\move_button.png" />
     <Image Include="Assets\placeHolderSprite.png" />
     <Image Include="Assets\rob_sprite_sheet.png" />

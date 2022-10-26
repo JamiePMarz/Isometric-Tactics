@@ -1,9 +1,5 @@
 #include "Vector2D.h"
 
-int Vector2D::scaledSize = 1;
-int Vector2D::scale = 1;
-int Vector2D::mapXOffSet = 0;
-
 
 Vector2D::Vector2D()
 {
@@ -126,19 +122,4 @@ bool Vector2D::operator == (const Vector2D& vector)
 bool Vector2D::operator != (const Vector2D& vector)
 {
 	return !(x == vector.x || y == vector.y);
-}
-
-
-
-
-void Vector2D::screenFromGrid(Vector2D& screen, Vector2D& grid)
-{
-	screen.x = (grid.x - grid.y) * (scaledSize / 2) - (scaledSize / 2) + mapXOffSet;
-	screen.y = (grid.x + grid.y) * (scaledSize / 4) - (scaledSize / 2);
-}
-
-void Vector2D::gridFromScreen(Vector2D& grid, Vector2D& screen)
-{
-	grid.x = std::round((screen.x / (scaledSize / 2) + screen.y / (scaledSize / 4)) / 2) - 8; //offsets????
-	grid.y = std::round((screen.y / (scaledSize / 4) - screen.x / (scaledSize / 2)) / 2) + 7;
 }

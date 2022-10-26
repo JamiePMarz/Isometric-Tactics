@@ -9,14 +9,6 @@ Entity::~Entity()
 {}
 
 
-void Entity::lmbClicked()
-{
-	
-	std::cout << "entity clicked";
-	for (auto& c : components) c->lmbClicked();
-}
-
-
 void Entity::update()
 {
 	for (auto& c : components) c->update();
@@ -47,17 +39,6 @@ void Entity::delGroup(Group group)
 
 
 //EntityManager definitions
-
-void EntityManager::lmbClicked()
-{
-	for (auto& e : entities)
-	{
-		//if (Keyboard_Mouse::mouseHovers(e)//checks grid only uses transform
-			e->lmbClicked();
-	}
-}
-
-
 void EntityManager::update()
 {
 	for (auto& e : entities) e->update();

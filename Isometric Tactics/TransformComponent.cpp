@@ -19,14 +19,14 @@ TransformComponent::TransformComponent(float x, float y)
 	screenPos.y = y;
 }
 
-TransformComponent::TransformComponent(int x, int y, int aHeight, int aWidth)
+TransformComponent::TransformComponent(int x, int y, int aHeight, int aWidth, int aScale)
 {
 	gridPos.x = x;
 	gridPos.y = y;
-	Vector2D::screenFromGrid(screenPos, gridPos);
+	IsometricGrid::screenFromGrid(screenPos, gridPos);
 	height = aHeight;
 	width = aWidth;
-	scale = Vector2D::scale;
+	scale = aScale;
 }
 
 void TransformComponent::initialize()
@@ -44,5 +44,5 @@ void TransformComponent::moveByGrid(Vector2D& grid)
 {
 	gridPos.x = grid.x;
 	gridPos.y = grid.y;
-	Vector2D::screenFromGrid(screenPos, gridPos);
+	IsometricGrid::screenFromGrid(screenPos, gridPos);
 }

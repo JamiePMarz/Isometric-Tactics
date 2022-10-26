@@ -1,6 +1,6 @@
 #pragma once
 #include "Vector2D.h"
-#include "IsometricMap.h"
+#include "IsometricGrid.h"
 #include "SDL.h"
 
 

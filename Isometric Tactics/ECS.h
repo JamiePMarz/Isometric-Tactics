@@ -49,7 +49,6 @@ public:
 	virtual void initialize() {}
 	virtual void update() {}
 	virtual void draw() {}
-	virtual void lmbClicked() {}
 	
 };
 
@@ -60,8 +59,6 @@ public:
 	
 	Entity(EntityManager& manager);
 	~Entity();
-
-	void lmbClicked();
 
 	void update();
 	void draw();
@@ -100,14 +97,12 @@ public:
 
 	//getters and setters
 	bool isActive() const { return active; }
-	void setActive(bool setActive) { active = setActive; }
-	//void setSelected(bool setSelected) { selected = setSelected; };
+	void destroy() { active = false; }
 	
 
 private:
 	EntityManager& entityManager; 
 	bool active = true;
-	//bool selected = false;
 
 	ComponentVectorUptr components;
 	ComponentArrayPtr componentArray;
@@ -121,8 +116,6 @@ private:
 class EntityManager
 {
 public:
-
-	void lmbClicked();
 
 	void update();
 	void draw();

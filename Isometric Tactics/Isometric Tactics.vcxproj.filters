@@ -51,7 +51,7 @@
     <ClCompile Include="TransformComponent.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="IsometricMap.cpp">
+    <ClCompile Include="IsometricGrid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TileComponent.cpp">
@@ -92,7 +92,7 @@
     <ClInclude Include="TransformComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="IsometricMap.h">
+    <ClInclude Include="IsometricGrid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TileComponent.h">
@@ -131,6 +131,9 @@
     <ClInclude Include="ECS.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="IsoMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\rob_sprite_sheet.png">
@@ -155,6 +158,12 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Assets\move_button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\map1_ts.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\map0_ts.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

@@ -7,13 +7,13 @@
 #include "Vector2D.h"
 
 
-class IsometricMap
+class IsometricGrid
 {
 public:
-	IsometricMap(std::string tID, int ms, int ts);
-	~IsometricMap();
+	IsometricGrid(std::string tID, int ms, int ts);
+	~IsometricGrid();
 
-	void loadMap(std::string path, int width, int height);
+	void loadGrid(std::string path, int width, int height);
 	void addTile(int srcX, int srcY, int xpos, int ypos, int index, int i, int j);
 
 	void tilePtrs(int width, int mapSize);
@@ -33,6 +33,10 @@ public:
 	//collision map
 	//height map
 
+	static void screenFromGrid(Vector2D& screen, Vector2D& grid);
+	static void gridFromScreen(Vector2D& grid, Vector2D& screen);
+
+
 private:
 	std::string tileSetID;
 	int mapScale;
@@ -41,6 +45,6 @@ private:
 	static int xOffSet;
 	static int mapWidth;
 	static int mapHeight;
-	std::vector<Entity*> grid;
+	std::vector<Entity*> gridTiles;
 
 };

@@ -14,7 +14,7 @@ void Keyboard_Mouse::setMouseXY(int& mouseX, int& mouseY)
 {
 	screenPos.x = mouseX;
 	screenPos.y = mouseY;
-	Vector2D::gridFromScreen(gridPos, screenPos);
+	IsometricGrid::gridFromScreen(gridPos, screenPos);
 }
 
 

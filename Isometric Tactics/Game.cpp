@@ -6,15 +6,12 @@ SDL_Renderer* WindowManager::renderer = nullptr;
 SDL_Event Game::event;
 
 Keyboard_Mouse* keyboardMouse = nullptr;
-int Game::mouseX;
-int Game::mouseY;
 
 AssetManager* Game::assets = nullptr;
 
 EntityManager entityManager;
 CombatManager* combatManager = nullptr;
-
-IsometricMap* Game::map = nullptr;;
+gameState Game::state = neutral;
 
 //move after movement reset deleted
 auto& unit1(entityManager.addEntity());
@@ -28,26 +25,31 @@ Game::~Game()
 void Game::initialize()
 {
 	windowManager = new WindowManager();
-	windowManager->initialize("Isometric Tactics", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 960, 740, false);
+	windowManager->initialize("Isometric Tactics", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 500, false);
 	running = windowManager->isInitialized();
 
 	keyboardMouse = new Keyboard_Mouse();
-	
+
 	assets = new AssetManager();
-	//add assets func to addtextures
-	assets->addTexture("testTS", "Assets/testTS.png");
+	int scale = 2;
+	assets->addTexture("map0_ts", "Assets/map0_ts.png");
+	IsoMap* map0 = new IsoMap("map0_ts", scale, 32, "Assets/map0_20x15.map", 20, 15);
+	assets->addIsoMap("map0", map0);
+
+	assets->addTexture("map1_ts", "Assets/map1_ts.png");
+	IsoMap* map1 = new IsoMap("map1_ts", scale, 32, "Assets/map1_10x8.map", 10, 8);
+	assets->addIsoMap("map1", map1);
+
 	assets->addTexture("placeHolder", "Assets/placeHolderSprite.png");
 	assets->addTexture("tile_highlighted", "Assets/tile_highlighted.png");
 	assets->addTexture("tile_cusor", "Assets/tile_cusor.png");
 	//
 
-	map = new IsometricMap("testTS", 3, 32);
-	map->loadMap("Assets/textMap_20x15.map", 20, 15);//temp
-	
 	combatManager = new CombatManager(entityManager);
-
+	
 	//temp
-	unit1.addComponent<TransformComponent>(2, 2, 32, 32);
+	combatManager->startCombat("map0");
+	unit1.addComponent<TransformComponent>(2, 2, 32, 32, scale);//create unit roster in battle manager
 	unit1.addComponent<SpriteComponent>("placeHolder");
 	unit1.addComponent<StatsComponent>();
 	unit1.addGroup(groupUnits);
@@ -81,6 +83,18 @@ void Game::handleEvents()
 
 		if (SDL_BUTTON_RIGHT == event.button.button)
 		{}
+
+		break;
+
+	case SDL_KEYDOWN:
+		/*if ( event.key.keysym.sym == SDLK_c && event.key.repeat == 0)
+		{
+			std::cout << "sdlk_c pressed\n";
+			combatManager->startCombat("testTS", 3, 32, "Assets/textMap_20x15.map", 20, 15);
+		}*/
+
+		if (event.key.keysym.sym == SDLK_ESCAPE)
+			setRunning(false);
 
 		break;
 

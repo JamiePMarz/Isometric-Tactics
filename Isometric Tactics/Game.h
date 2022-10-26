@@ -1,19 +1,20 @@
 #pragma once
 #include "SDL.h"
 #include "AssetManager.h"
-#include "IsometricMap.h"
 #include "WindowManager.h"
 #include "Keyboard_Mouse.h"
 #include "CombatManager.h"
+#include "IsoMap.h"
 
 class AssetManager;
-class IsometricMap;
 
 enum gameState
 {
-	gsCombat
+	combat,
+	neutral
 
 };
+
 
 
 class Game
@@ -49,15 +50,19 @@ public:
 
 	//getters and setters
 	bool isRunning() const { return running; }
-	void setRunning(bool run) { running = run; }
-	static IsometricMap* map;
+	void setRunning(bool setRunning) { running = setRunning; }
 
-	gameState getState() { return state; }
+	gameState getGameState() const { return state; }
+	static void setGameState(gameState setGameState)
+	{ 
+		std::cout << "game state becomes: " << setGameState << std::endl;
+		state = setGameState; 
+	}
 	
 private:
 	bool running;
 	
-	static int mouseX, mouseY;
-	gameState state = gsCombat;
+	int mouseX, mouseY;
+	static gameState state;
 
 };

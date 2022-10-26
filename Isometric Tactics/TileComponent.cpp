@@ -3,6 +3,7 @@
 
 TileComponent::TileComponent(int srcX, int srcY, int xpos, int ypos, int tileSize, int scale, std::string aTexture, int index, int i, int j)
 {
+	//std::cout << "tile created\n";
 	texture = AssetManager::getTexture(aTexture);
 
 	src.x = srcX;

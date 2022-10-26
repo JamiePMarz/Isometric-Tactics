@@ -3,9 +3,14 @@
 #include "CombatMovement.h"
 #include "CombatMenu.h"
 #include "Components.h"
+#include "IsometricGrid.h"
+#include <string>
+#include "AssetManager.h"
 
 class CombatMovement;
 class CombatMenu;
+class IsometricGrid;
+struct IsoMap;
 
 
 class CombatManager
@@ -30,6 +35,11 @@ public:
 	~CombatManager() {}
 
 
+	void selectGrid();
+	void startCombat(std::string mapID);
+	void endCombat();
+
+
 	void update();
 
 	void endTurn();
@@ -43,6 +53,8 @@ public:
 
 	//public vars
 	combatState state = neutral;
+	
+
 
 private:
 	EntityManager& entityManager;
@@ -50,6 +62,7 @@ private:
 	CombatMovement* combatMove;
 	CombatMenu* combatMenu;
 	
-
+	static IsometricGrid* isoGrid;
+	static IsoMap* isoMap;
 
 };
