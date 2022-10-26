@@ -173,12 +173,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\collider.png" />
-    <Image Include="Assets\iso_square.png" />
     <Image Include="Assets\map0_ts.png" />
     <Image Include="Assets\map1_ts.png" />
-    <Image Include="Assets\move_button.png" />
     <Image Include="Assets\placeHolderSprite.png" />
-    <Image Include="Assets\rob_sprite_sheet.png" />
     <Image Include="Assets\testTS.png" />
     <Image Include="Assets\tile_cusor.png" />
     <Image Include="Assets\tile_highlighted.png" />

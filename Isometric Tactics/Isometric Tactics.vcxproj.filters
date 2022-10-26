@@ -136,13 +136,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Assets\rob_sprite_sheet.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="Assets\tile_highlighted.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Assets\iso_square.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Assets\placeHolderSprite.png">
@@ -155,9 +149,6 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Assets\collider.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Assets\move_button.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Assets\map1_ts.png">
