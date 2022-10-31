@@ -29,7 +29,6 @@ public:
 	int width = 32;
 	int scale = 1;
 	int speed = 4;
-	int scaledSize;
 
 private:
 	

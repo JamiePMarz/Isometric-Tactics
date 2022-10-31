@@ -15,6 +15,7 @@ void Keyboard_Mouse::setMouseXY(int& mouseX, int& mouseY)
 	screenPos.x = mouseX;
 	screenPos.y = mouseY;
 	IsometricGrid::gridFromScreen(gridPos, screenPos);
+	//std::cout << gridPos << std::endl;
 }
 
 

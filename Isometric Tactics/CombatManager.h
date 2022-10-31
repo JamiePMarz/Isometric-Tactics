@@ -46,13 +46,13 @@ public:
 
 	//getters and setters
 	void setCombatState(combatState setCombatState) { state = setCombatState; }
-	combatState getCombatState() { return state; }
+	static combatState getCombatState() { return state; }
 
 	void setUnitsTurn(Entity* setUnitsTurn);
-	Entity* getUnitsTurn() { return unitsTurn; }
+	Entity* getUnitsTurn() const { return unitsTurn; }
 
 	//public vars
-	combatState state = neutral;
+	static combatState state;
 	
 
 

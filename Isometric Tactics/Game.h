@@ -37,9 +37,10 @@ public:
 		groupTiles,
 		groupUnits,
 		groupColliders,
-		groupSelected,
+		groupSelected,//in use?
 		groupClickable,
-		groupSelectedTile
+		groupEnemies,
+		groupRange
 
 	};
 

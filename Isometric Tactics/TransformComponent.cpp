@@ -1,7 +1,6 @@
 #include "TransformComponent.h"
 
 
-
 TransformComponent::TransformComponent()
 {
 	screenPos.zero();

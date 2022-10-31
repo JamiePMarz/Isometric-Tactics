@@ -19,13 +19,6 @@ public:
 	void tilePtrs(int width, int mapSize);
 
 	//getters and setters
-	int getMapScale() { return mapScale; }
-	static int getScaledSize() { return scaledSize; }
-	static int getXOffSet() { return xOffSet; }
-	static int getMapWidth() { return mapWidth; }
-	static int getMapHeight() { return mapHeight; }
-
-	int getTileSize() const { return tileSize; }
 
 	//to do list
 	//grid
@@ -43,8 +36,8 @@ private:
 	int tileSize;
 	static int scaledSize;
 	static int xOffSet;
-	static int mapWidth;
-	static int mapHeight;
+	int mapWidth;
+	int mapHeight;
 	std::vector<Entity*> gridTiles;
 
 };

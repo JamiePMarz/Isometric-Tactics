@@ -13,38 +13,37 @@ public:
 
 	~TileComponent() override 
 	{ 
-		std::cout << "tile destroyed\n";
+		//std::cout << "tile destroyed\n";
 		SDL_DestroyTexture(texture); 
 	}
 
 	void draw() override;
 	void update() override;
 
-	Entity* entity;
+	//entity ptrs
+	Entity* entity;//owner
 	Entity* right = nullptr;
 	Entity* down = nullptr;
 	Entity* left = nullptr;
 	Entity* up = nullptr;
-	int gridIndex;
-
-	Vector2D getPosition() { return screenPos; }
-	Vector2D getGridPosition() { return gridPos; }
-
-	SDL_Texture* getTex() { return texture; }
-
-	SDL_Rect getSrc() { return src; }
-	SDL_Rect getDest() { return dest; }
-
-	bool selectable = true;
-	bool blocked = false;
 
 	//getters and setter
+	Vector2D getPosition() const { return screenPos; }
+	Vector2D getGridPosition() const { return gridPos; }
 
+	SDL_Texture* getTex() const { return texture; }
+
+	SDL_Rect getSrc() const { return src; }
+	SDL_Rect getDest() const { return dest; }
+
+	//public vars
+	bool selectable = true;
+	bool blocked = false;
+	int gridIndex;
 
 private:
 	SDL_Texture* texture;
 	SDL_Rect src, dest;
-	Vector2D screenPos;
-	Vector2D gridPos;
+	Vector2D screenPos, gridPos;
 
 };

@@ -51,14 +51,6 @@ void EntityManager::draw()
 
 void EntityManager::refresh()
 {
-	//deconstructs entities when !active and removes from vector
-	entities.erase(std::remove_if(std::begin(entities), std::end(entities),
-		[](const std::unique_ptr<Entity>& entity)
-		{
-			return !entity->isActive();
-		}
-		), std::end(entities));
-
 	for (auto i(0u); i < maxGroups; i++)
 	{
 		//same as above but creates v(vector from groupedEntities) to go through the array of vectors (groupedEntities)
@@ -70,6 +62,15 @@ void EntityManager::refresh()
 			}
 			),std::end(vector));
 	}
+
+	//deconstructs entities when !active and removes from vector
+	entities.erase(std::remove_if(std::begin(entities), std::end(entities),
+		[](const std::unique_ptr<Entity>& entity)
+		{
+			return !entity->isActive();
+		}
+	), std::end(entities));
+
 }
 
 Entity& EntityManager::addEntity()

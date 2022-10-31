@@ -157,5 +157,8 @@
     <Image Include="Assets\map0_ts.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Assets\placeHolderSprite_red.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -3,8 +3,6 @@
 extern EntityManager entityManager;
 int IsometricGrid::scaledSize;
 int IsometricGrid::xOffSet;
-int IsometricGrid::mapWidth;
-int IsometricGrid::mapHeight;
 
 
 IsometricGrid::IsometricGrid(std::string tID, int ms, int ts) : tileSetID(tID), mapScale(ms), tileSize(ts)
@@ -91,14 +89,18 @@ void IsometricGrid::tilePtrs(int width, int mapSize)
 }
 
 
+
 void IsometricGrid::screenFromGrid(Vector2D& screen, Vector2D& grid)
 {
 	screen.x = (grid.x - grid.y) * (scaledSize / 2) - (scaledSize / 2) + xOffSet;
 	screen.y = (grid.x + grid.y) * (scaledSize / 4) - (scaledSize / 2);
 }
 
+
 void IsometricGrid::gridFromScreen(Vector2D& grid, Vector2D& screen)
 {
-	grid.x = std::round((screen.x / (scaledSize / 2) + screen.y / (scaledSize / 4)) / 2) - 8;//fix ME
-	grid.y = std::round((screen.y / (scaledSize / 4) - screen.x / (scaledSize / 2)) / 2) + 7;
-}
+	grid.x = std::floor(((screen.x - xOffSet) / (scaledSize / 2) + screen.y / (scaledSize / 4)) / 2);
+	grid.y = std::floor((screen.y / (scaledSize / 4) - (screen.x - xOffSet) / (scaledSize / 2)) / 2);
+}//BOOOM FIXED!!!
+
+

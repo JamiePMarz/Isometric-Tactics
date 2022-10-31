@@ -176,6 +176,7 @@
     <Image Include="Assets\map0_ts.png" />
     <Image Include="Assets\map1_ts.png" />
     <Image Include="Assets\placeHolderSprite.png" />
+    <Image Include="Assets\placeHolderSprite_red.png" />
     <Image Include="Assets\testTS.png" />
     <Image Include="Assets\tile_cusor.png" />
     <Image Include="Assets\tile_highlighted.png" />

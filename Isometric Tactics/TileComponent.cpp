@@ -30,13 +30,10 @@ void TileComponent::draw()
 {
 	TextureManager::drawTexture(texture, src, dest, SDL_FLIP_NONE);
 
-
 	if (Keyboard_Mouse::hover(gridPos) && selectable)
-	{
 		TextureManager::drawTileTextures("tile_cusor", dest);
-	}
 
-	if (entity->hasGroup(Game::groupSelectedTile))
+	if (entity->hasGroup(Game::groupRange))
 		TextureManager::drawTileTextures("tile_highlighted", dest);
 
 }
@@ -47,21 +44,8 @@ void TileComponent::update()
 	//position
 	dest.x = static_cast<float>(screenPos.x);
 	dest.y = static_cast<float>(screenPos.y);
-		
-	//left clicked
-	if (Keyboard_Mouse::leftClick())
-	{
-		entity->delGroup(Game::groupSelectedTile);
-		if (Keyboard_Mouse::hover(gridPos) && selectable)
-		{
-			entity->addGroup(Game::groupSelectedTile);
-		}
-	}
-	
 
-	//right clicked
-	if (Keyboard_Mouse::rightClick())
-	{
-		entity->delGroup(Game::groupSelectedTile);
-	}
+	if (CombatManager::getCombatState() != CombatManager::combatState::move)
+		entity->delGroup(Game::groupRange);
+
 }

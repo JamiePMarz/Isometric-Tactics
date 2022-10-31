@@ -14,7 +14,9 @@ CombatManager* combatManager = nullptr;
 gameState Game::state = neutral;
 
 //move after movement reset deleted
-auto& unit1(entityManager.addEntity());
+Entity& unit1(entityManager.addEntity()); 
+Entity& unit2(entityManager.addEntity());
+
 
 
 Game::Game()
@@ -31,30 +33,50 @@ void Game::initialize()
 	keyboardMouse = new Keyboard_Mouse();
 
 	assets = new AssetManager();
-	int scale = 2;
+	int scale = 3;
+	//map0
 	assets->addTexture("map0_ts", "Assets/map0_ts.png");
 	IsoMap* map0 = new IsoMap("map0_ts", scale, 32, "Assets/map0_20x15.map", 20, 15);
 	assets->addIsoMap("map0", map0);
-
+	//map1
 	assets->addTexture("map1_ts", "Assets/map1_ts.png");
 	IsoMap* map1 = new IsoMap("map1_ts", scale, 32, "Assets/map1_10x8.map", 10, 8);
 	assets->addIsoMap("map1", map1);
 
 	assets->addTexture("placeHolder", "Assets/placeHolderSprite.png");
+	assets->addTexture("redUnit", "Assets/placeHolderSprite_red.png");
+
 	assets->addTexture("tile_highlighted", "Assets/tile_highlighted.png");
 	assets->addTexture("tile_cusor", "Assets/tile_cusor.png");
 	//
 
 	combatManager = new CombatManager(entityManager);
 	
+
+
+
 	//temp
-	combatManager->startCombat("map0");
-	unit1.addComponent<TransformComponent>(2, 2, 32, 32, scale);//create unit roster in battle manager
+	//combatManager->startCombat("map0");//didint need to be a map
+
+
+
+
+	//unit 2
+	unit2.addComponent<TransformComponent>(2, 3, 32, 32, scale);
+	unit2.addComponent<SpriteComponent>("redUnit");
+	unit2.addComponent<StatsComponent>();
+	unit2.addGroup(groupUnits);
+	unit2.addGroup(groupEnemies);
+
+	//unit 1
+	unit1.addComponent<TransformComponent>(2, 2, 32, 32, scale);//create unit roster in battle manager. just use groups
 	unit1.addComponent<SpriteComponent>("placeHolder");
 	unit1.addComponent<StatsComponent>();
 	unit1.addGroup(groupUnits);
 	combatManager->setUnitsTurn(&unit1);
+	
 	//
+
 }
 
 
@@ -78,28 +100,60 @@ void Game::handleEvents()
 		break;
 
 	case SDL_MOUSEBUTTONDOWN:
-		if (SDL_BUTTON_LEFT == event.button.button)
-		{}
+		switch (event.button.button)
+		{
+		case SDL_BUTTON_LEFT:
 
-		if (SDL_BUTTON_RIGHT == event.button.button)
-		{}
+			break;
+		case SDL_BUTTON_RIGHT:
 
-		break;
+			break;
+
+		default:
+			break;
+		}
 
 	case SDL_KEYDOWN:
-		/*if ( event.key.keysym.sym == SDLK_c && event.key.repeat == 0)
+		switch (event.key.keysym.sym)
 		{
-			std::cout << "sdlk_c pressed\n";
-			combatManager->startCombat("testTS", 3, 32, "Assets/textMap_20x15.map", 20, 15);
-		}*/
-
-		if (event.key.keysym.sym == SDLK_ESCAPE)
+		case SDLK_ESCAPE:
 			setRunning(false);
+			break;
 
-		break;
+		case SDLK_n:
+			std::cout << "n pressed\n";
+			combatManager->endCombat();
+			for (auto& t : tiles)
+			{
+				t->destroy();
+			}
+
+
+			combatManager->startCombat("map1");
+
+			break;
+
+		case SDLK_m:
+			std::cout << "m pressed\n";
+			combatManager->endCombat();
+			for (auto& t : tiles)
+			{
+				t->destroy();
+			}
+
+
+			combatManager->startCombat("map0");
+
+			break;
+
+		default:
+			break;
+		}
+
 
 	default:
 		break;
+
 	}
 }
 

@@ -21,8 +21,6 @@ public:
 	static bool keyPressed(SDL_KeyCode key);
 
 
-
-
 	//getters and setters
 	void setMouseXY(int& mouseX, int& mouseY);
 

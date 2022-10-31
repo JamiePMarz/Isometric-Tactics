@@ -1,21 +1,18 @@
 #include "CombatMovement.h"
-
+#include <cmath>//in use?
 
 Entity* CombatMovement::unitsTurn;
+extern EntityManager entityManager;
 
-
+auto& tileRange(entityManager.getGroup(Game::groupTiles));
 
 CombatMovement::CombatMovement(EntityManager& eManager, CombatManager& cManager) : entityManager(eManager), combatManager(cManager)
 {}
 
 void CombatMovement::update()
 {
-	showMoveRange();
 	if (Keyboard_Mouse::leftClick())
-	{
 		move();
-	}
-
 }
 
 void CombatMovement::move()
@@ -23,19 +20,20 @@ void CombatMovement::move()
 	if (unitCanMoveHere())
 	{
 		unitsTurn->getComponent<TransformComponent>().moveByGrid(Keyboard_Mouse::getGridPos());
+		showMoveRange();
 	}
+	
 }
 
 bool CombatMovement::unitCanMoveHere()
 {
-	Vector2D unitsPos = unitsTurn->getComponent<TransformComponent>().gridPos;
+	Vector2D unitPos = unitsTurn->getComponent<TransformComponent>().gridPos;
 	Vector2D mousePos = Keyboard_Mouse::getGridPos();
 
-	int xDist = abs(unitsPos.x - mousePos.x);
-	int yDist = abs(unitsPos.y - mousePos.y);
+	int xDist = abs(unitPos.x - mousePos.x);
+	int yDist = abs(unitPos.y - mousePos.y);
 
-	if (unitsTurn->getComponent<StatsComponent>().currentMove >= xDist + yDist/* &&
-		tile isnt blocked*/																)
+	if (unitsTurn->getComponent<StatsComponent>().currentMove >= xDist + yDist)/* && isnt blocked*/
 	{
 		unitsTurn->getComponent<StatsComponent>().currentMove -= xDist + yDist;
 		std::cout << "move left: " << unitsTurn->getComponent<StatsComponent>().currentMove << std::endl;
@@ -43,23 +41,32 @@ bool CombatMovement::unitCanMoveHere()
 	}
 	else
 	{
-		//std::cout << mousePos << std::endl;
 		std::cout << "unit can't move\n";
 		return false;
 	}
 }
 
+
+
 void CombatMovement::showMoveRange()
 {
 	int moveRange = unitsTurn->getComponent<StatsComponent>().currentMove;
-	/*if (!entityManager.getGroup(Game::groupSelectedTile).empty())
+	Vector2D unitPos = unitsTurn->getComponent<TransformComponent>().gridPos;
+
+	
+
+	for (auto& t : tileRange)
 	{
-		for (auto& tile : entityManager.getGroup(Game::groupSelectedTile))
-		{
-			baseTile = tile;
-		}
-		std::cout << "base tile capted at gridpos: " << baseTile->getComponent<TileComponent>().getGridPosition() << std::endl;
-	}*/
+		Vector2D tilePos = t->getComponent<TileComponent>().getGridPosition();
+		
+		int xDist = abs(unitPos.x - tilePos.x);
+		int yDist = abs(unitPos.y - tilePos.y);
+
+		if (unitsTurn->getComponent<StatsComponent>().currentMove >= xDist + yDist && t->getComponent<TileComponent>().blocked == false)
+			t->addGroup(Game::groupRange);
+		else
+			t->delGroup(Game::groupRange);
+	}
 }
 
 
