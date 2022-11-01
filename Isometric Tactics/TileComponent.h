@@ -11,11 +11,8 @@ public:
 	TileComponent() = default;
 	TileComponent(int srcX, int srcY, int xpos, int ypos, int tileSize, int scale, std::string aTexture, int index, int i, int j);
 
-	~TileComponent() override 
-	{ 
-		//std::cout << "tile destroyed\n";
-		SDL_DestroyTexture(texture); 
-	}
+	~TileComponent() override;
+
 
 	void draw() override;
 	void update() override;

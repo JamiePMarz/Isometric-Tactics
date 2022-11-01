@@ -37,7 +37,6 @@ public:
 		groupTiles,
 		groupUnits,
 		groupColliders,
-		groupSelected,//in use?
 		groupClickable,
 		groupEnemies,
 		groupRange
@@ -56,7 +55,7 @@ public:
 	gameState getGameState() const { return state; }
 	static void setGameState(gameState setGameState)
 	{ 
-		std::cout << "game state becomes: " << setGameState << std::endl;
+		//std::cout << "game state becomes: " << setGameState << std::endl;
 		state = setGameState; 
 	}
 	

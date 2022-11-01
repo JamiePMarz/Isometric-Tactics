@@ -51,15 +51,6 @@ void Game::initialize()
 	//
 
 	combatManager = new CombatManager(entityManager);
-	
-
-
-
-	//temp
-	//combatManager->startCombat("map0");//didint need to be a map
-
-
-
 
 	//unit 2
 	unit2.addComponent<TransformComponent>(2, 3, 32, 32, scale);
@@ -69,14 +60,16 @@ void Game::initialize()
 	unit2.addGroup(groupEnemies);
 
 	//unit 1
-	unit1.addComponent<TransformComponent>(2, 2, 32, 32, scale);//create unit roster in battle manager. just use groups
+	unit1.addComponent<TransformComponent>(2, 2, 32, 32, scale);
 	unit1.addComponent<SpriteComponent>("placeHolder");
 	unit1.addComponent<StatsComponent>();
 	unit1.addGroup(groupUnits);
 	combatManager->setUnitsTurn(&unit1);
 	
 	//
-
+	std::cout << "b start map0\n"
+		<< "n start map1\n"
+		<< "m end combat\n";
 }
 
 
@@ -120,29 +113,23 @@ void Game::handleEvents()
 			setRunning(false);
 			break;
 
-		case SDLK_n:
-			std::cout << "n pressed\n";
-			combatManager->endCombat();
-			for (auto& t : tiles)
-			{
-				t->destroy();
-			}
+		case SDLK_b:
+			std::cout << "b pressed to start combat\n";
 
+			combatManager->startCombat("map0");
+
+			break;
+
+		case SDLK_n:
+			std::cout << "n pressed to start combat\n";
 
 			combatManager->startCombat("map1");
 
 			break;
 
 		case SDLK_m:
-			std::cout << "m pressed\n";
+			std::cout << "m pressed to end combat\n";
 			combatManager->endCombat();
-			for (auto& t : tiles)
-			{
-				t->destroy();
-			}
-
-
-			combatManager->startCombat("map0");
 
 			break;
 

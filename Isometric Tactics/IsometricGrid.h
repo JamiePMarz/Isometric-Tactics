@@ -20,15 +20,10 @@ public:
 
 	//getters and setters
 
-	//to do list
-	//grid
-	//tile map
-	//collision map
-	//height map
-
 	static void screenFromGrid(Vector2D& screen, Vector2D& grid);
 	static void gridFromScreen(Vector2D& grid, Vector2D& screen);
 
+	static const std::vector<Entity*> getGridTiles() { return gridTiles; }
 
 private:
 	std::string tileSetID;
@@ -38,6 +33,6 @@ private:
 	static int xOffSet;
 	int mapWidth;
 	int mapHeight;
-	std::vector<Entity*> gridTiles;
+	static std::vector<Entity*> gridTiles;
 
 };

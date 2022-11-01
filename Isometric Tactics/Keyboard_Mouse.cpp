@@ -21,15 +21,18 @@ void Keyboard_Mouse::setMouseXY(int& mouseX, int& mouseY)
 
 bool Keyboard_Mouse::leftClick()
 {
-	if (Game::event.button.button == SDL_BUTTON_LEFT)//add no repeat?
+	if (Game::event.button.button == SDL_BUTTON_LEFT && Game::event.button.state == SDL_PRESSED)
+	{
+		//std::cout << "lmb clicked\n";
 		return  true;
+	}
 	else
 		return false;
 }
 
 bool Keyboard_Mouse::rightClick()
 {
-	if (Game::event.button.button == SDL_BUTTON_RIGHT)
+	if (Game::event.button.button == SDL_BUTTON_RIGHT && Game::event.button.state == SDL_PRESSED)
 		return  true;
 	else
 		return false;

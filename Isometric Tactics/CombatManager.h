@@ -6,6 +6,7 @@
 #include "IsometricGrid.h"
 #include <string>
 #include "AssetManager.h"
+#include <vector>
 
 class CombatMovement;
 class CombatMenu;
@@ -26,7 +27,8 @@ public:
 		skill_1,
 		skill_2,
 		item,
-		end
+		end,
+		placement
 
 	};
 
@@ -34,11 +36,10 @@ public:
 	CombatManager(EntityManager& manager);
 	~CombatManager() {}
 
-
-	void selectGrid();
 	void startCombat(std::string mapID);
-	void endCombat();
+	void coutControls();
 
+	void endCombat();
 
 	void update();
 

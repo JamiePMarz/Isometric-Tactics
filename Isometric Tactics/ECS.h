@@ -97,8 +97,8 @@ public:
 
 	//getters and setters
 	bool isActive() const { return active; }
-	void destroy() { active = false; }
-	
+	void setActive(bool setActive) { active = setActive; }
+
 
 private:
 	EntityManager& entityManager; 

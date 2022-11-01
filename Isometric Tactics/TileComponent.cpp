@@ -25,6 +25,10 @@ TileComponent::TileComponent(int srcX, int srcY, int xpos, int ypos, int tileSiz
 	}
 }
 
+TileComponent::~TileComponent()
+{
+	//std::cout << "tile destroyed\n";
+}
 
 void TileComponent::draw()
 {

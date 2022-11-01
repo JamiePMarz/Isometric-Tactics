@@ -6,7 +6,10 @@ Entity::Entity(EntityManager& manager) : entityManager(manager)
 {}
 
 Entity::~Entity()
-{}
+{
+	//std::cout << "entity destroyed\n";
+	//delete this;
+}
 
 
 void Entity::update()
@@ -53,21 +56,21 @@ void EntityManager::refresh()
 {
 	for (auto i(0u); i < maxGroups; i++)
 	{
-		//same as above but creates v(vector from groupedEntities) to go through the array of vectors (groupedEntities)
 		auto& vector(groupedEntities[i]);
+		
+
 		vector.erase(std::remove_if(std::begin(vector), std::end(vector),
 			[i](Entity* entity)
-			{
-				return !entity->isActive() || !entity->hasGroup(i);
+			{ 
+				return !entity->isActive() || !entity->hasGroup(i); 
 			}
-			),std::end(vector));
+		),std::end(vector));
 	}
 
-	//deconstructs entities when !active and removes from vector
 	entities.erase(std::remove_if(std::begin(entities), std::end(entities),
 		[](const std::unique_ptr<Entity>& entity)
 		{
-			return !entity->isActive();
+			return !entity->isActive(); 
 		}
 	), std::end(entities));
 

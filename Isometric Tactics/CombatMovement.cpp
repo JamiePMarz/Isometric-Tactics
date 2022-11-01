@@ -1,10 +1,10 @@
 #include "CombatMovement.h"
-#include <cmath>//in use?
 
 Entity* CombatMovement::unitsTurn;
 extern EntityManager entityManager;
 
-auto& tileRange(entityManager.getGroup(Game::groupTiles));
+auto& tileRange = entityManager.getGroup(Game::groupTiles);
+//auto& tileRange(entityManager.getGroup(Game::groupTiles));
 
 CombatMovement::CombatMovement(EntityManager& eManager, CombatManager& cManager) : entityManager(eManager), combatManager(cManager)
 {}

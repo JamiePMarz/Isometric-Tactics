@@ -3,17 +3,18 @@
 extern EntityManager entityManager;
 int IsometricGrid::scaledSize;
 int IsometricGrid::xOffSet;
+std::vector<Entity*> IsometricGrid::gridTiles;
 
 
 IsometricGrid::IsometricGrid(std::string tID, int ms, int ts) : tileSetID(tID), mapScale(ms), tileSize(ts)
 {
-	std::cout << "map created\n";
+	//std::cout << "grid created\n";
 	scaledSize = ms * ts;
 }
 
 IsometricGrid::~IsometricGrid()
 {
-	std::cout << "map destroyed\n";
+	//std::cout << "grid destroyed\n";
 }
 
 void IsometricGrid::loadGrid(std::string path, int width, int height)
@@ -21,7 +22,7 @@ void IsometricGrid::loadGrid(std::string path, int width, int height)
 	std::cout << "map loaded\n";
 	char c;
 	std::fstream mapFile;
-	mapFile.open(path);
+	mapFile.open(path, std::ios::in);//read only
 
 	mapWidth = width;
 	mapHeight = height;
