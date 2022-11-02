@@ -4,3 +4,4 @@
 #include "TransformComponent.h"
 #include "TileComponent.h"
 #include "StatsComponent.h"
+#include "UnitComponent.h"

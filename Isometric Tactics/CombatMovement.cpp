@@ -11,9 +11,13 @@ CombatMovement::CombatMovement(EntityManager& eManager, CombatManager& cManager)
 
 void CombatMovement::update()
 {
+	if (unitsTurn->getComponent<StatsComponent>().currentMove == 0)
+		combatManager.state = CombatManager::combatState::menu;
+
 	showMoveRange();
 	if (Keyboard_Mouse::leftClick())
 		move();
+
 }
 
 void CombatMovement::move()
@@ -29,11 +33,13 @@ void CombatMovement::move()
 		}
 
 		unitsTurn->getComponent<TransformComponent>().moveByGrid(Keyboard_Mouse::getGridPos());
+
+		combatManager.state = CombatManager::combatState::menu;
 	}
 	
 }
 
-bool CombatMovement::unitCanMoveHere()//fix off grid move
+bool CombatMovement::unitCanMoveHere()
 {
 	Vector2D unitPos = unitsTurn->getComponent<TransformComponent>().gridPos;
 	Vector2D mousePos = Keyboard_Mouse::getGridPos();

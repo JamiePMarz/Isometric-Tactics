@@ -3,6 +3,7 @@
 extern EntityManager entityManager;
 int IsometricGrid::scaledSize;
 int IsometricGrid::xOffSet;
+int IsometricGrid::yOffSet;
 std::vector<Entity*> IsometricGrid::gridTiles;
 
 
@@ -33,7 +34,8 @@ void IsometricGrid::loadGrid(std::string path)
 	mapFile.ignore();
 
 	int mapSize = mapWidth * mapHeight;
-	xOffSet = ((mapWidth / 2) + (mapHeight / 4)) * (scaledSize / 2) + scaledSize;
+	xOffSet = mapHeight * scaledSize / 2;
+	yOffSet = 0;
 
 	gridTiles.clear();
 	gridTiles.resize(mapSize);
@@ -50,7 +52,7 @@ void IsometricGrid::loadGrid(std::string path)
 			mapFile.get(c);
 			srcX = atoi(&c) * tileSize;
 			xpos = (i - j) * (scaledSize / 2) - scaledSize / 2 + xOffSet;
-			ypos = (i + j) * (scaledSize / 4);
+			ypos = (i + j) * (scaledSize / 4) + yOffSet;
 
 			addTile(srcX, srcY, xpos, ypos, index, i, j);
 			index++;
@@ -66,11 +68,10 @@ void IsometricGrid::loadGrid(std::string path)
 		for (int l = 0; l < mapWidth; l++)
 		{
 			mapFile.get(c);
+
 			if (c == 'p')
-			{
 				gridTiles[index]->getComponent<TileComponent>().placeHere = true;
-				std::cout << gridTiles[index]->getComponent<TileComponent>().getGridPosition() << std::endl;
-			}
+
 			index++;
 			mapFile.ignore();
 		}
@@ -129,14 +130,14 @@ void IsometricGrid::tilePtrs(int width, int mapSize)
 void IsometricGrid::screenFromGrid(Vector2D& screen, Vector2D& grid)
 {
 	screen.x = (grid.x - grid.y) * (scaledSize / 2) - (scaledSize / 2) + xOffSet;
-	screen.y = (grid.x + grid.y) * (scaledSize / 4) - (scaledSize / 2);
+	screen.y = (grid.x + grid.y) * (scaledSize / 4) - (scaledSize / 2) + yOffSet;
 }
 
 
 void IsometricGrid::gridFromScreen(Vector2D& grid, Vector2D& screen)
 {
-	grid.x = std::floor(((screen.x - xOffSet) / (scaledSize / 2) + screen.y / (scaledSize / 4)) / 2);
-	grid.y = std::floor((screen.y / (scaledSize / 4) - (screen.x - xOffSet) / (scaledSize / 2)) / 2);
+	grid.x = std::floor(((screen.x - xOffSet) / (scaledSize / 2) + (screen.y - yOffSet) / (scaledSize / 4)) / 2);
+	grid.y = std::floor(((screen.y - yOffSet) / (scaledSize / 4) - (screen.x - xOffSet) / (scaledSize / 2)) / 2);
 }//BOOOM FIXED!!!
 
 

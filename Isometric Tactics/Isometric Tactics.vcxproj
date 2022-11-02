@@ -150,6 +150,7 @@
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="TileComponent.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
+    <ClCompile Include="UnitComponent.cpp" />
     <ClCompile Include="Vector2D.cpp" />
     <ClCompile Include="WindowManager.cpp" />
   </ItemGroup>
@@ -171,6 +172,7 @@
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="TileComponent.h" />
     <ClInclude Include="TransformComponent.h" />
+    <ClInclude Include="UnitComponent.h" />
     <ClInclude Include="Vector2D.h" />
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>
@@ -187,11 +189,6 @@
     <Image Include="Assets\testTS.png" />
     <Image Include="Assets\tile_cusor.png" />
     <Image Include="Assets\tile_highlighted.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Assets\map0_20x15.map" />
-    <None Include="Assets\map1_10x8.map" />
-    <None Include="Assets\map2_10x10.map" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

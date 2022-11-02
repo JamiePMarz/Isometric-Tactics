@@ -28,6 +28,7 @@ private:
 	CombatManager& combatManager;
 
 	static int placedCount;
+	static int maxParty;
 	
 
 };

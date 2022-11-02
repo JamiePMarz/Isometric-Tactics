@@ -84,6 +84,7 @@ Entity& EntityManager::addEntity()
 	return *e;
 }
 
+
 //groups
 void EntityManager::AddToGroup(Entity* entity, Group group)
 {

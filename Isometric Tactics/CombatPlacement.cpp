@@ -6,7 +6,8 @@ auto& cpTiles(entityManager.getGroup(Game::groupTiles));
 
 extern CombatManager combatManager;
 
-int CombatPlacement::placedCount = 0;
+int CombatPlacement::placedCount = 0;//because its the index :/
+int CombatPlacement::maxParty = 5;//because its compared to a static
 bool CombatPlacement::finPlace = false;
 
 
@@ -27,7 +28,7 @@ void CombatPlacement::update()
 	if (Keyboard_Mouse::leftClick() && canPlaceHere())
 		placeUnits();
 
-	if (Keyboard_Mouse::rightClick() && placedCount > 0 || placedCount == 5) //hardcoded
+	if (Keyboard_Mouse::rightClick() && placedCount > 0 || placedCount == maxParty || placedCount == roster.size())
 		finishPlacement();
 }
 
@@ -56,7 +57,9 @@ void CombatPlacement::placeUnits()
 
 void CombatPlacement::finishPlacement()
 {
-	if (placedCount < 5)
+	std::cout << "placement finished\n";
+
+	if (placedCount < maxParty && roster.size() < placedCount)
 	{
 		Entity* e = roster[placedCount];
 		e->getComponent<SpriteComponent>().inBattleTeam = false;

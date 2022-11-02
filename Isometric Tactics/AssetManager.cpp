@@ -29,3 +29,11 @@ IsoMap* AssetManager::getIsoMap(std::string id)
 	return isoMaps[id];
 }
 
+
+void AssetManager::createMapAsset(const char* tsPath, int scale, int tileSize, std::string mapPath, int width, int height, std::string mapKey)
+{
+	std::string tileSet;
+	addTexture(tileSet, tsPath);
+	IsoMap* map = new IsoMap(tileSet, scale, tileSize, mapPath, width, height);
+	addIsoMap(mapKey, map);
+}

@@ -31,6 +31,7 @@ private:
 	int tileSize;
 	static int scaledSize;
 	static int xOffSet;
+	static int yOffSet;
 	int mapWidth;
 	int mapHeight;
 	static std::vector<Entity*> gridTiles;
