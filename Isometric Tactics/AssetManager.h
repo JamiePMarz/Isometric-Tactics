@@ -12,6 +12,14 @@ public:
 	AssetManager();
 	~AssetManager();
 
+	//void insertMap(std::string name, const char* tsPath, int width, int height, int scale)
+	//{
+	//	addTexture(name + "_ts", tsPath);
+	//	IsoMap* map = new IsoMap(name + "_ts", scale, 32, "Assets/" + name + "_" + char(width) + "x" + char(height) + ".map", width, height);
+	//	addIsoMap(name, map);
+	//}
+
+
 	void addTexture(std::string id, const char* path);
 	void addIsoMap(std::string id, IsoMap* isoMap);
 

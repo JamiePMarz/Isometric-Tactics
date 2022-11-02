@@ -16,6 +16,9 @@ gameState Game::state = neutral;
 //move after movement reset deleted
 Entity& unit1(entityManager.addEntity()); 
 Entity& unit2(entityManager.addEntity());
+Entity& unit3(entityManager.addEntity());
+Entity& unit4(entityManager.addEntity());
+Entity& unit5(entityManager.addEntity());
 
 
 
@@ -34,38 +37,90 @@ void Game::initialize()
 
 	assets = new AssetManager();
 	int scale = 3;
-	//map0
-	assets->addTexture("map0_ts", "Assets/map0_ts.png");
-	IsoMap* map0 = new IsoMap("map0_ts", scale, 32, "Assets/map0_20x15.map", 20, 15);
-	assets->addIsoMap("map0", map0);
-	//map1
-	assets->addTexture("map1_ts", "Assets/map1_ts.png");
-	IsoMap* map1 = new IsoMap("map1_ts", scale, 32, "Assets/map1_10x8.map", 10, 8);
-	assets->addIsoMap("map1", map1);
 
-	assets->addTexture("placeHolder", "Assets/placeHolderSprite.png");
-	assets->addTexture("redUnit", "Assets/placeHolderSprite_red.png");
+	//MAPS
+	{	
+		assets->addTexture("map0_ts", "Assets/map0_ts.png");
+		IsoMap* map = new IsoMap("map0_ts", scale, 32, "Assets/map0_20x15.map", 20, 15);
+		assets->addIsoMap("map0", map);
+	}
+
+	{
+		assets->addTexture("map1_ts", "Assets/map1_ts.png");
+		IsoMap* map = new IsoMap("map1_ts", scale, 32, "Assets/map1_10x8.map", 10, 8);
+		assets->addIsoMap("map1", map);
+	}
+
+	{
+		assets->addTexture("map2_ts", "Assets/map2_ts.png");
+		IsoMap* map = new IsoMap("map2_ts", scale, 32, "Assets/map2_10x10.map", 10, 10);
+		assets->addIsoMap("map2", map);
+	}
+
+	{
+		assets->addTexture("map3_ts", "Assets/map3_ts.png");
+		IsoMap* map3 = new IsoMap("map3_ts", scale, 32, "Assets/map3_19x10.map", 19, 10);
+		assets->addIsoMap("map3", map3);
+	}
+
+	//////////
+	assets->addTexture("ph_1", "Assets/ph_1.png");
+	assets->addTexture("ph_2", "Assets/ph_2.png");
+	assets->addTexture("ph_3", "Assets/ph_3.png");
+	assets->addTexture("ph_4", "Assets/ph_4.png");
+	assets->addTexture("ph_5", "Assets/ph_5.png");
+
 
 	assets->addTexture("tile_highlighted", "Assets/tile_highlighted.png");
 	assets->addTexture("tile_cusor", "Assets/tile_cusor.png");
+	assets->addTexture("collider", "Assets/collider.png");
 	//
 
 	combatManager = new CombatManager(entityManager);
-
-	//unit 2
-	unit2.addComponent<TransformComponent>(2, 3, 32, 32, scale);
-	unit2.addComponent<SpriteComponent>("redUnit");
-	unit2.addComponent<StatsComponent>();
-	unit2.addGroup(groupUnits);
-	unit2.addGroup(groupEnemies);
+	
+	
+	combatManager->startCombat("map3");
 
 	//unit 1
-	unit1.addComponent<TransformComponent>(2, 2, 32, 32, scale);
-	unit1.addComponent<SpriteComponent>("placeHolder");
+	//make add unit func
+	unit1.addComponent<TransformComponent>(scale);
+	unit1.addComponent<SpriteComponent>("ph_1");//only draw if placed
 	unit1.addComponent<StatsComponent>();
 	unit1.addGroup(groupUnits);
+	unit1.addGroup(groupRoster);
 	combatManager->setUnitsTurn(&unit1);
+
+	unit2.addComponent<TransformComponent>(scale);
+	unit2.addComponent<SpriteComponent>("ph_2");
+	unit2.addComponent<StatsComponent>();
+	unit2.addGroup(groupUnits);
+	unit2.addGroup(groupRoster);
+
+	unit3.addComponent<TransformComponent>(scale);
+	unit3.addComponent<SpriteComponent>("ph_3");
+	unit3.addComponent<StatsComponent>();
+	unit3.addGroup(groupUnits);
+	unit3.addGroup(groupRoster);
+
+	unit4.addComponent<TransformComponent>(scale);
+	unit4.addComponent<SpriteComponent>("ph_4");
+	unit4.addComponent<StatsComponent>();
+	unit4.addGroup(groupUnits);
+	unit4.addGroup(groupRoster);
+
+	unit5.addComponent<TransformComponent>(scale);
+	unit5.addComponent<SpriteComponent>("ph_5");
+	unit5.addComponent<StatsComponent>();
+	unit5.addGroup(groupUnits);
+	unit5.addGroup(groupRoster);
+
 	
+	
+
+
+
+	
+
 	//
 	std::cout << "b start map0\n"
 		<< "n start map1\n"

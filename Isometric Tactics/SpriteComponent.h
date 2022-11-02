@@ -22,12 +22,22 @@ public:
 	SpriteComponent(std::string id, bool isAnimated);
 	~SpriteComponent();
 
-	void setTexture(std::string id);
+	
 
 	void initialize() override;
 	void update() override;
 	void draw() override;
 	void play(const char* animationName);
+
+	//public vars
+	bool inBattleTeam = false;
+
+	//getters and setters
+	void setTexture(std::string id);
+	SDL_Texture* getTexture() { return texture; }
+	SDL_Rect getSrc() { return src; }
+	SDL_Rect getDest() { return dest; }//in use?
+
 
 private:
 	TransformComponent* transform;

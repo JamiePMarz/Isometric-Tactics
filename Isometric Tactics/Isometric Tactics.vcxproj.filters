@@ -78,6 +78,9 @@
     <ClCompile Include="ECS.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
+    <ClCompile Include="CombatPlacement.cpp">
+      <Filter>Source Files\Combat</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -134,12 +137,12 @@
     <ClInclude Include="IsoMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CombatPlacement.h">
+      <Filter>Header Files\Combat</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\tile_highlighted.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Assets\placeHolderSprite.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Assets\testTS.png">
@@ -157,8 +160,28 @@
     <Image Include="Assets\map0_ts.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Assets\placeHolderSprite_red.png">
+    <Image Include="Assets\ph_2.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Assets\ph_3.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\ph_4.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\ph_5.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\ph_1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\map2_ts.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\map0_20x15.map" />
+    <None Include="Assets\map1_10x8.map" />
+    <None Include="Assets\map2_10x10.map" />
   </ItemGroup>
 </Project>

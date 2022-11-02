@@ -36,7 +36,9 @@ public:
 	//public vars
 	bool selectable = true;
 	bool blocked = false;
+	bool placeHere = false;
 	int gridIndex;
+
 
 private:
 	SDL_Texture* texture;

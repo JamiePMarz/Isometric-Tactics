@@ -2,6 +2,7 @@
 
 Vector2D Keyboard_Mouse::screenPos;
 Vector2D Keyboard_Mouse::gridPos;
+SDL_Rect Keyboard_Mouse::dest;
 
 
 Keyboard_Mouse::Keyboard_Mouse()
@@ -14,8 +15,11 @@ void Keyboard_Mouse::setMouseXY(int& mouseX, int& mouseY)
 {
 	screenPos.x = mouseX;
 	screenPos.y = mouseY;
+	dest.x = mouseX;//????
+	dest.y = mouseY;
+	dest.w = dest.h = 96;
 	IsometricGrid::gridFromScreen(gridPos, screenPos);
-	//std::cout << gridPos << std::endl;
+	//std::cout << screenPos << std::endl;
 }
 
 

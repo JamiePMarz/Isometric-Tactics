@@ -57,7 +57,8 @@ void SpriteComponent::update()
 
 void SpriteComponent::draw()
 {
-	TextureManager::drawTexture(texture, src, dest, spriteFlip);
+	if (inBattleTeam)
+		TextureManager::drawTexture(texture, src, dest, spriteFlip);
 }
 
 void SpriteComponent::play(const char* animationName)

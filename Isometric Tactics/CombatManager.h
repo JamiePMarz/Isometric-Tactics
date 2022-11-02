@@ -2,6 +2,7 @@
 #include "ECS.h"
 #include "CombatMovement.h"
 #include "CombatMenu.h"
+#include "CombatPlacement.h"
 #include "Components.h"
 #include "IsometricGrid.h"
 #include <string>
@@ -9,6 +10,7 @@
 #include <vector>
 
 class CombatMovement;
+class CombatPlacement;
 class CombatMenu;
 class IsometricGrid;
 struct IsoMap;
@@ -37,7 +39,6 @@ public:
 	~CombatManager() {}
 
 	void startCombat(std::string mapID);
-	void coutControls();
 
 	void endCombat();
 
@@ -54,7 +55,6 @@ public:
 
 	//public vars
 	static combatState state;
-	
 
 
 private:
@@ -62,6 +62,7 @@ private:
 	Entity* unitsTurn;
 	CombatMovement* combatMove;
 	CombatMenu* combatMenu;
+	CombatPlacement* combatPlacement;
 	
 	static IsometricGrid* isoGrid;
 	static IsoMap* isoMap;

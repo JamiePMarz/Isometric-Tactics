@@ -17,15 +17,21 @@ IsometricGrid::~IsometricGrid()
 	//std::cout << "grid destroyed\n";
 }
 
-void IsometricGrid::loadGrid(std::string path, int width, int height)
+void IsometricGrid::loadGrid(std::string path)
 {
-	std::cout << "map loaded\n";
+	std::cout << "loading grid\n";
 	char c;
+	std::string temp;
 	std::fstream mapFile;
-	mapFile.open(path, std::ios::in);//read only
+	mapFile.open(path, std::ios::in);
 
-	mapWidth = width;
-	mapHeight = height;
+	//getting dimensions
+	std::getline(mapFile, temp, ',');
+	mapWidth = stoi(temp);
+	std::getline(mapFile, temp);
+	mapHeight = stoi(temp);
+	mapFile.ignore();
+
 	int mapSize = mapWidth * mapHeight;
 	xOffSet = ((mapWidth / 2) + (mapHeight / 4)) * (scaledSize / 2) + scaledSize;
 
@@ -51,6 +57,35 @@ void IsometricGrid::loadGrid(std::string path, int width, int height)
 			mapFile.ignore();
 		}
 	}
+
+	mapFile.ignore();
+	index = 0;
+
+	for (int k = 0; k < mapHeight; k++)
+	{
+		for (int l = 0; l < mapWidth; l++)
+		{
+			mapFile.get(c);
+			if (c == 'p')
+			{
+				gridTiles[index]->getComponent<TileComponent>().placeHere = true;
+				std::cout << gridTiles[index]->getComponent<TileComponent>().getGridPosition() << std::endl;
+			}
+			index++;
+			mapFile.ignore();
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
 
 	tilePtrs(mapWidth, mapSize);
 

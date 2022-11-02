@@ -26,6 +26,7 @@ public:
 	~CombatMenu() {}
 
 	void update();
+	void coutMenu();
 
 	void drawMenu();
 

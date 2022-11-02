@@ -139,6 +139,7 @@
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="CombatManager.cpp" />
     <ClCompile Include="CombatMovement.cpp" />
+    <ClCompile Include="CombatPlacement.cpp" />
     <ClCompile Include="ECS.cpp" />
     <ClCompile Include="IsometricGrid.cpp" />
     <ClCompile Include="Keyboard_Mouse.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="CombatManager.h" />
     <ClInclude Include="CombatMenu.h" />
     <ClInclude Include="CombatMovement.h" />
+    <ClInclude Include="CombatPlacement.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="ECS.h" />
     <ClInclude Include="Game.h" />
@@ -176,11 +178,20 @@
     <Image Include="Assets\collider.png" />
     <Image Include="Assets\map0_ts.png" />
     <Image Include="Assets\map1_ts.png" />
-    <Image Include="Assets\placeHolderSprite.png" />
-    <Image Include="Assets\placeHolderSprite_red.png" />
+    <Image Include="Assets\map2_ts.png" />
+    <Image Include="Assets\ph_1.png" />
+    <Image Include="Assets\ph_2.png" />
+    <Image Include="Assets\ph_3.png" />
+    <Image Include="Assets\ph_4.png" />
+    <Image Include="Assets\ph_5.png" />
     <Image Include="Assets\testTS.png" />
     <Image Include="Assets\tile_cusor.png" />
     <Image Include="Assets\tile_highlighted.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\map0_20x15.map" />
+    <None Include="Assets\map1_10x8.map" />
+    <None Include="Assets\map2_10x10.map" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -40,6 +40,12 @@ void TileComponent::draw()
 	if (entity->hasGroup(Game::groupRange))
 		TextureManager::drawTileTextures("tile_highlighted", dest);
 
+	if (placeHere)
+		TextureManager::drawTileTextures("tile_cusor", dest);
+
+	if (blocked)
+		TextureManager::drawTileTextures("collider", dest);
+
 }
 
 

@@ -24,11 +24,12 @@ public:
 	//getters and setters
 	void setMouseXY(int& mouseX, int& mouseY);
 
-	Vector2D getScreenPos() { return screenPos; }
+	static Vector2D& getScreenPos() { return screenPos; }
 	static Vector2D& getGridPos() { return gridPos; }
-
+	static SDL_Rect& getDest() { return dest; }//in use?
 	
 private:
 	static Vector2D screenPos, gridPos;
+	static SDL_Rect dest;//in use??
 
 };

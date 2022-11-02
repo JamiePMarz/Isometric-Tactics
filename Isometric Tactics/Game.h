@@ -39,7 +39,8 @@ public:
 		groupColliders,
 		groupClickable,
 		groupEnemies,
-		groupRange
+		groupRange,
+		groupRoster
 
 	};
 

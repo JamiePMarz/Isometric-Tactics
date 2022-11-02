@@ -4,7 +4,6 @@
 #include "Components.h"
 #include "CombatManager.h"
 
-
 class CombatManager;
 
 

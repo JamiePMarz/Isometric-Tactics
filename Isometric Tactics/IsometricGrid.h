@@ -13,7 +13,7 @@ public:
 	IsometricGrid(std::string tID, int ms, int ts);
 	~IsometricGrid();
 
-	void loadGrid(std::string path, int width, int height);
+	void loadGrid(std::string path);
 	void addTile(int srcX, int srcY, int xpos, int ypos, int index, int i, int j);
 
 	void tilePtrs(int width, int mapSize);

@@ -1,16 +1,17 @@
 #include "CombatMovement.h"
 
 Entity* CombatMovement::unitsTurn;
-extern EntityManager entityManager;
 
-auto& tileRange = entityManager.getGroup(Game::groupTiles);
-//auto& tileRange(entityManager.getGroup(Game::groupTiles));
+extern EntityManager entityManager;
+auto& cmTiles(entityManager.getGroup(Game::groupTiles));
+
 
 CombatMovement::CombatMovement(EntityManager& eManager, CombatManager& cManager) : entityManager(eManager), combatManager(cManager)
 {}
 
 void CombatMovement::update()
 {
+	showMoveRange();
 	if (Keyboard_Mouse::leftClick())
 		move();
 }
@@ -19,21 +20,39 @@ void CombatMovement::move()
 {
 	if (unitCanMoveHere())
 	{
+		for (auto& t : cmTiles)
+		{
+			if (unitsTurn->getComponent<TransformComponent>().gridPos == t->getComponent<TileComponent>().getGridPosition())
+				t->getComponent<TileComponent>().blocked = false;
+			if (Keyboard_Mouse::getGridPos() == t->getComponent<TileComponent>().getGridPosition())
+				t->getComponent<TileComponent>().blocked = true;
+		}
+
 		unitsTurn->getComponent<TransformComponent>().moveByGrid(Keyboard_Mouse::getGridPos());
-		showMoveRange();
 	}
 	
 }
 
-bool CombatMovement::unitCanMoveHere()
+bool CombatMovement::unitCanMoveHere()//fix off grid move
 {
 	Vector2D unitPos = unitsTurn->getComponent<TransformComponent>().gridPos;
 	Vector2D mousePos = Keyboard_Mouse::getGridPos();
 
+	TileComponent* tileC = nullptr;
+	for (auto& t : cmTiles)
+	{
+		if (t->getComponent<TileComponent>().getGridPosition() == mousePos)
+			tileC = &t->getComponent<TileComponent>();
+	}
+
+	if (tileC == nullptr)
+		return false;
+
+
 	int xDist = abs(unitPos.x - mousePos.x);
 	int yDist = abs(unitPos.y - mousePos.y);
 
-	if (unitsTurn->getComponent<StatsComponent>().currentMove >= xDist + yDist)/* && isnt blocked*/
+	if (unitsTurn->getComponent<StatsComponent>().currentMove >= xDist + yDist && !tileC->blocked)
 	{
 		unitsTurn->getComponent<StatsComponent>().currentMove -= xDist + yDist;
 		std::cout << "move left: " << unitsTurn->getComponent<StatsComponent>().currentMove << std::endl;
@@ -55,7 +74,7 @@ void CombatMovement::showMoveRange()
 
 	
 
-	for (auto& t : tileRange)
+	for (auto& t : cmTiles)
 	{
 		Vector2D tilePos = t->getComponent<TileComponent>().getGridPosition();
 		
