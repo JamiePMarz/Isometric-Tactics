@@ -17,13 +17,13 @@ public:
 	void initialize() override;
 	void update() override;
 
-	void moveByGrid(Vector2D& grid);
+	void moveByGrid(Vector2D& newGrid);
 
 
 	//getters and setters
 
 	//public vars
-	Vector2D screenPos, gridPos;
+	Vector2D screen, grid;
 	Vector2D velocity;
 	int height = 32;
 	int width = 32;

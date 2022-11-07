@@ -2,7 +2,7 @@
 #include "Vector2D.h"
 #include "IsometricGrid.h"
 #include "SDL.h"
-
+#include "Macros.h"
 
 
 class Keyboard_Mouse
@@ -18,18 +18,15 @@ public:
 	static bool leftClick();
 	static bool rightClick();
 
-	static bool keyPressed(SDL_KeyCode key);
-
+	static bool keyPress(SDL_KeyCode key);
 
 	//getters and setters
 	void setMouseXY(int& mouseX, int& mouseY);
 
-	static Vector2D& getScreenPos() { return screenPos; }
-	static Vector2D& getGridPos() { return gridPos; }
-	static SDL_Rect& getDest() { return dest; }//in use?
+	static Vector2D& getScreen() { return screen; }
+	static Vector2D& getGrid() { return grid; }
 	
 private:
-	static Vector2D screenPos, gridPos;
-	static SDL_Rect dest;//in use??
+	static Vector2D screen, grid;
 
 };

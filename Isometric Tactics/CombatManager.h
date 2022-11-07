@@ -30,16 +30,16 @@ public:
 		skill_2,
 		item,
 		end,
-		placement
+		placement,
+		//test
 
 	};
 
 
-	CombatManager(EntityManager& manager);
+	CombatManager(EntityManager& eManager);
 	~CombatManager() {}
 
 	void startCombat(std::string mapID);
-
 	void endCombat();
 
 	void update();
@@ -47,10 +47,10 @@ public:
 	void endTurn();
 
 	//getters and setters
-	void setCombatState(combatState setCombatState) { state = setCombatState; }
+	void setCombatState(combatState newState) { state = newState; }
 	static combatState getCombatState() { return state; }
 
-	void setUnitsTurn(Entity* setUnitsTurn);
+	void setUnitsTurn(Entity* newUnit);
 	Entity* getUnitsTurn() const { return unitsTurn; }
 
 	//public vars
@@ -63,6 +63,7 @@ private:
 	CombatMovement* combatMove;
 	CombatMenu* combatMenu;
 	CombatPlacement* combatPlacement;
+	//CombatTest* combatTest;
 	
 	static IsometricGrid* isoGrid;
 	static IsoMap* isoMap;

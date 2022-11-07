@@ -9,28 +9,29 @@ std::vector<Entity*> IsometricGrid::gridTiles;
 
 IsometricGrid::IsometricGrid(std::string tID, int ms, int ts) : tileSetID(tID), mapScale(ms), tileSize(ts)
 {
-	//std::cout << "grid created\n";
+	LOG("grid created");
 	scaledSize = ms * ts;
 }
 
 IsometricGrid::~IsometricGrid()
 {
-	//std::cout << "grid destroyed\n";
+	LOG("grid destroyed");
 }
 
 void IsometricGrid::loadGrid(std::string path)
 {
-	std::cout << "loading grid\n";
+	LOG("loading grid");
 	char c;
 	std::string temp;
 	std::fstream mapFile;
 	mapFile.open(path, std::ios::in);
 
 	//getting dimensions
-	std::getline(mapFile, temp, ',');
+	std::getline(mapFile, temp, 'x');
 	mapWidth = stoi(temp);
 	std::getline(mapFile, temp);
 	mapHeight = stoi(temp);
+	std::getline(mapFile, temp);
 	mapFile.ignore();
 
 	int mapSize = mapWidth * mapHeight;
@@ -43,6 +44,7 @@ void IsometricGrid::loadGrid(std::string path)
 	int srcX, srcY, xpos, ypos;
 	int index = 0;
 
+	//sprite/tile
 	for (int j = 0; j < mapHeight; j++)
 	{
 		for (int i = 0; i < mapWidth; i++)
@@ -63,6 +65,8 @@ void IsometricGrid::loadGrid(std::string path)
 	mapFile.ignore();
 	index = 0;
 
+
+	//placement
 	for (int k = 0; k < mapHeight; k++)
 	{
 		for (int l = 0; l < mapWidth; l++)
@@ -77,15 +81,24 @@ void IsometricGrid::loadGrid(std::string path)
 		}
 	}
 
+	mapFile.ignore();
+	index = 0;
 
+	//height
+	for (int m = 0; m < mapHeight; m++)
+	{
+		for (int n = 0; n < mapWidth; n++)
+		{
+			mapFile.get(c);
+			int height = atoi(&c);
 
+			if (height != 0)
+				gridTiles[index]->getComponent<TileComponent>().addScreenY(-(scaledSize / 4 * height));
 
-
-
-
-
-
-
+			index++;
+			mapFile.ignore();
+		}
+	}
 
 
 	tilePtrs(mapWidth, mapSize);
@@ -95,9 +108,11 @@ void IsometricGrid::loadGrid(std::string path)
 
 void IsometricGrid::addTile(int srcX, int srcY, int xpos, int ypos, int index, int i, int j)
 {
+
 	auto& tile(entityManager.addEntity());
 	tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, tileSize, mapScale, tileSetID, index, i, j);
 	tile.getComponent<TileComponent>().entity = &tile;
+
 	gridTiles[index] = &tile;
 	tile.addGroup(Game::groupTiles);
 }
@@ -138,6 +153,6 @@ void IsometricGrid::gridFromScreen(Vector2D& grid, Vector2D& screen)
 {
 	grid.x = std::floor(((screen.x - xOffSet) / (scaledSize / 2) + (screen.y - yOffSet) / (scaledSize / 4)) / 2);
 	grid.y = std::floor(((screen.y - yOffSet) / (scaledSize / 4) - (screen.x - xOffSet) / (scaledSize / 2)) / 2);
-}//BOOOM FIXED!!!
+}
 
 

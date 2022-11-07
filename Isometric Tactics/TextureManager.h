@@ -15,8 +15,6 @@ public:
 
 	static void drawTileTextures(std::string aTexture, SDL_Rect dest);
 
-	static void drawMenu() {}
-
 
 private:
 

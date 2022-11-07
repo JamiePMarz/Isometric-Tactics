@@ -1,4 +1,5 @@
 #pragma once
+#include "Macros.h"
 #include "SDL.h"
 #include "AssetManager.h"
 #include "WindowManager.h"
@@ -31,7 +32,6 @@ public:
 
 	void clean();
 
-
 	enum groupLabels : std::size_t
 	{
 		groupTiles,
@@ -50,14 +50,14 @@ public:
 	static SDL_Event event;
 
 	//getters and setters
-	bool isRunning() const { return running; }
-	void setRunning(bool setRunning) { running = setRunning; }
+	bool getRunning() const { return running; }
+	void setRunning(bool newRunning) { running = newRunning; }
 
 	gameState getGameState() const { return state; }
-	static void setGameState(gameState setGameState)
+	static void setGameState(gameState newState)
 	{ 
-		//std::cout << "game state becomes: " << setGameState << std::endl;
-		state = setGameState; 
+		//LOG(newState);
+		state = newState;
 	}
 	
 private:

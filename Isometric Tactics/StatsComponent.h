@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "Components.h"
+#include "Macros.h"
 
 
 struct StatsComponent : public Component
@@ -11,7 +12,7 @@ struct StatsComponent : public Component
 	void moveReset() 
 	{ 
 		currentMove = maxMove; 
-		//std::cout << "current move: " << currentMove << std::endl;
+		//LOG(currentMove);
 	}
 
 };

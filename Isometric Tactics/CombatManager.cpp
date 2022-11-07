@@ -5,7 +5,7 @@ IsoMap* CombatManager::isoMap = nullptr;
 CombatManager::combatState CombatManager::state;
 
 
-CombatManager::CombatManager(EntityManager& manager) : entityManager(manager)
+CombatManager::CombatManager(EntityManager& eManager) : entityManager(eManager)
 {
 	CombatMovement* combatMove = new CombatMovement(entityManager, *this);
 	CombatMenu* combatMenu = new CombatMenu(entityManager, *this);
@@ -15,12 +15,13 @@ CombatManager::CombatManager(EntityManager& manager) : entityManager(manager)
 
 void CombatManager::startCombat(std::string mapID)
 {	
+	LOG("combat starts\n");
 	isoMap = AssetManager::getIsoMap(mapID);
-	std::cout << "combat starts\n";
+	LOG("loading " << mapID << std::endl);
 	Game::setGameState(combat);
-	isoGrid = new IsometricGrid(isoMap->tileSet, isoMap->mapScale, isoMap->tileSize);//cant i just update it?
-	isoGrid->loadGrid(isoMap->mapPath);
-	delete isoGrid;
+	LOG("setting grid details\n");
+	IsometricGrid isoGrid(isoMap->tileSet, isoMap->mapScale, isoMap->tileSize);
+	isoGrid.loadGrid(isoMap->mapPath);//could get map details straigth from isoMap->xyz
 
 	CombatPlacement::finPlace = false;
 	state = placement;
@@ -30,7 +31,7 @@ void CombatManager::startCombat(std::string mapID)
 
 void CombatManager::endCombat()
 {
-	std::cout << "combat ends\n";
+	LOG("combat ends\n");
 	auto& tiles(entityManager.getGroup(Game::groupTiles));
 	auto& roster(entityManager.getGroup(Game::groupRoster));
 
@@ -41,7 +42,7 @@ void CombatManager::endCombat()
 
 	for (auto& entity : tiles)
 	{
-		entity->setActive(false);	//leaks
+		entity->setActive(false);
 	}
 }
 
@@ -50,7 +51,7 @@ void CombatManager::update()
 	if (Keyboard_Mouse::rightClick() && CombatPlacement::finPlace)
 	{
 		state = CombatManager::combatState::menu;
-		//std::cout << "state is menu" << std::endl;
+		//LOG("state is menu\n");
 	}
 
 	switch (state)
@@ -71,6 +72,10 @@ void CombatManager::update()
 
 		break;
 
+	/*case test:
+		combatTest->update();
+		break;*/
+
 	case end:
 		endTurn();
 		break;
@@ -83,16 +88,16 @@ void CombatManager::update()
 
 
 
-void CombatManager::setUnitsTurn(Entity* setUnitsTurn)
+void CombatManager::setUnitsTurn(Entity* newUnit)
 {
-	unitsTurn = setUnitsTurn;
-	CombatMovement::setUnitsTurn(setUnitsTurn);
+	unitsTurn = newUnit;
+	CombatMovement::setUnitsTurn(newUnit);
 }
 
 void CombatManager::endTurn()
 {
-	std::cout << "turn ended\n";
+	LOG("turn ended\n");
 	unitsTurn->getComponent<StatsComponent>().moveReset();
-	//next unit func
+	//select next unit here
 	state = menu;
 }

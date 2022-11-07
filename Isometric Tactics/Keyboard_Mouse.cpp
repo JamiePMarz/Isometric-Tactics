@@ -1,8 +1,7 @@
 #include "Keyboard_Mouse.h"
 
-Vector2D Keyboard_Mouse::screenPos;
-Vector2D Keyboard_Mouse::gridPos;
-SDL_Rect Keyboard_Mouse::dest;
+Vector2D Keyboard_Mouse::screen;
+Vector2D Keyboard_Mouse::grid;
 
 
 Keyboard_Mouse::Keyboard_Mouse()
@@ -13,13 +12,10 @@ Keyboard_Mouse::~Keyboard_Mouse()
 
 void Keyboard_Mouse::setMouseXY(int& mouseX, int& mouseY)
 {
-	screenPos.x = mouseX;
-	screenPos.y = mouseY;
-	dest.x = mouseX;//????
-	dest.y = mouseY;
-	dest.w = dest.h = 96;
-	IsometricGrid::gridFromScreen(gridPos, screenPos);
-	//std::cout << screenPos << std::endl;
+	screen.x = mouseX;
+	screen.y = mouseY;
+	IsometricGrid::gridFromScreen(grid, screen);
+	//LOG(screen);
 }
 
 
@@ -27,7 +23,7 @@ bool Keyboard_Mouse::leftClick()
 {
 	if (Game::event.button.button == SDL_BUTTON_LEFT && Game::event.button.state == SDL_PRESSED)
 	{
-		//std::cout << "lmb clicked\n";
+		//LOG(left mb pressed);
 		return  true;
 	}
 	else
@@ -37,20 +33,23 @@ bool Keyboard_Mouse::leftClick()
 bool Keyboard_Mouse::rightClick()
 {
 	if (Game::event.button.button == SDL_BUTTON_RIGHT && Game::event.button.state == SDL_PRESSED)
+	{
+		//LOG(right mb pressed);
 		return  true;
+	}
 	else
 		return false;
 }
 
 bool Keyboard_Mouse::hover(Vector2D& vector)
 {
-	if (vector == gridPos || vector == screenPos)
+	if (vector == grid || vector == screen)
 		return true;
 	else
 		return false;
 }
 
-bool Keyboard_Mouse::keyPressed(SDL_KeyCode key)
+bool Keyboard_Mouse::keyPress(SDL_KeyCode key)
 {
 	if (Game::event.type == SDL_KEYDOWN && Game::event.key.keysym.sym == key && Game::event.key.repeat == 0)
 		return  true;

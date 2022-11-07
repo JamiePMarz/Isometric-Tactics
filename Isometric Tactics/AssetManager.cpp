@@ -30,10 +30,31 @@ IsoMap* AssetManager::getIsoMap(std::string id)
 }
 
 
-void AssetManager::createMapAsset(const char* tsPath, int scale, int tileSize, std::string mapPath, int width, int height, std::string mapKey)
+void AssetManager::createMapAsset(const char* tsPath, int scale, std::string mapPath, std::string mapKey)
 {
+	std::cout << mapKey << std::endl;
 	std::string tileSet;
 	addTexture(tileSet, tsPath);
-	IsoMap* map = new IsoMap(tileSet, scale, tileSize, mapPath, width, height);
+
+	int width, height, tileSize;
+	std::string temp;
+
+	std::fstream mapFile;
+	mapFile.open(mapPath, std::ios::in);
+
+	std::getline(mapFile, temp, 'x');
+	width = stoi(temp);
+	std::getline(mapFile, temp);
+	height = stoi(temp);
+
+	std::cout << width << "x" << height << std::endl;
+
+	std::getline(mapFile, temp);
+	tileSize = stoi(temp);
+	std::cout << tileSize << std::endl << std::endl;
+
+	mapFile.close();
+
+	IsoMap* map = new IsoMap(tileSet, scale, tileSize, mapPath, width, height); //remove new??
 	addIsoMap(mapKey, map);
 }

@@ -25,6 +25,8 @@ public:
 
 	static const std::vector<Entity*> getGridTiles() { return gridTiles; }
 
+	//public vars
+
 private:
 	std::string tileSetID;
 	int mapScale;

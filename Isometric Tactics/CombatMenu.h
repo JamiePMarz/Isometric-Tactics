@@ -19,7 +19,6 @@ public:
 		item,
 		status
 
-
 	};
 
 	CombatMenu(EntityManager& eManager, CombatManager& cManager);
@@ -28,7 +27,6 @@ public:
 	void update();
 	void coutMenu();
 
-	void drawMenu();
 
 private:
 	EntityManager& entityManager;

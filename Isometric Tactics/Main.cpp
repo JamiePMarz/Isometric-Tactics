@@ -1,5 +1,8 @@
 #include <iostream>
 #include "Game.h"
+#include "Macros.h"
+
+
 
 Game* game = nullptr;
 
@@ -16,7 +19,7 @@ int main(int argc, char* argv[])
 	int frameDelay = 1000 / FPS;
 
 
-	while (game->isRunning())
+	while (game->getRunning())
 	{
 		frameStart = SDL_GetTicks();
 
@@ -25,7 +28,8 @@ int main(int argc, char* argv[])
 		game->render();
 
 		frameTime = SDL_GetTicks() - frameStart;
-		//std::cout << frameTime << std::endl;
+
+		//LOG(frameTime);
 
 		if (frameDelay > frameTime)
 			SDL_Delay(frameDelay - frameTime);
@@ -34,6 +38,6 @@ int main(int argc, char* argv[])
 
 	game->clean();
 
-	//std::cin.get();
+	std::cin.get();
 	return 0;
 }

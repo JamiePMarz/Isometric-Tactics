@@ -16,7 +16,11 @@ void CombatMovement::update()
 
 	showMoveRange();
 	if (Keyboard_Mouse::leftClick())
+	{
 		move();
+		LOG("combat move left click\n");
+	}
+		
 
 }
 
@@ -26,13 +30,13 @@ void CombatMovement::move()
 	{
 		for (auto& t : cmTiles)
 		{
-			if (unitsTurn->getComponent<TransformComponent>().gridPos == t->getComponent<TileComponent>().getGridPosition())
+			if (unitsTurn->getComponent<TransformComponent>().grid == t->getComponent<TileComponent>().getGrid())
 				t->getComponent<TileComponent>().blocked = false;
-			if (Keyboard_Mouse::getGridPos() == t->getComponent<TileComponent>().getGridPosition())
+			if (Keyboard_Mouse::getGrid() == t->getComponent<TileComponent>().getGrid())
 				t->getComponent<TileComponent>().blocked = true;
 		}
 
-		unitsTurn->getComponent<TransformComponent>().moveByGrid(Keyboard_Mouse::getGridPos());
+		unitsTurn->getComponent<TransformComponent>().moveByGrid(Keyboard_Mouse::getGrid());
 
 		combatManager.state = CombatManager::combatState::menu;
 	}
@@ -41,13 +45,13 @@ void CombatMovement::move()
 
 bool CombatMovement::unitCanMoveHere()
 {
-	Vector2D unitPos = unitsTurn->getComponent<TransformComponent>().gridPos;
-	Vector2D mousePos = Keyboard_Mouse::getGridPos();
+	Vector2D unitPos = unitsTurn->getComponent<TransformComponent>().grid;
+	Vector2D mousePos = Keyboard_Mouse::getGrid();
 
 	TileComponent* tileC = nullptr;
 	for (auto& t : cmTiles)
 	{
-		if (t->getComponent<TileComponent>().getGridPosition() == mousePos)
+		if (t->getComponent<TileComponent>().getGrid() == mousePos)
 			tileC = &t->getComponent<TileComponent>();
 	}
 
@@ -61,12 +65,12 @@ bool CombatMovement::unitCanMoveHere()
 	if (unitsTurn->getComponent<StatsComponent>().currentMove >= xDist + yDist && !tileC->blocked)
 	{
 		unitsTurn->getComponent<StatsComponent>().currentMove -= xDist + yDist;
-		std::cout << "move left: " << unitsTurn->getComponent<StatsComponent>().currentMove << std::endl;
+		LOG("move left: " << unitsTurn->getComponent<StatsComponent>().currentMove << std::endl);
 		return true;
 	}
 	else
 	{
-		std::cout << "unit can't move\n";
+		LOG("unit can't move\n");
 		return false;
 	}
 }
@@ -76,13 +80,13 @@ bool CombatMovement::unitCanMoveHere()
 void CombatMovement::showMoveRange()
 {
 	int moveRange = unitsTurn->getComponent<StatsComponent>().currentMove;
-	Vector2D unitPos = unitsTurn->getComponent<TransformComponent>().gridPos;
+	Vector2D unitPos = unitsTurn->getComponent<TransformComponent>().grid;
 
 	
 
 	for (auto& t : cmTiles)
 	{
-		Vector2D tilePos = t->getComponent<TileComponent>().getGridPosition();
+		Vector2D tilePos = t->getComponent<TileComponent>().getGrid();
 		
 		int xDist = abs(unitPos.x - tilePos.x);
 		int yDist = abs(unitPos.y - tilePos.y);
@@ -93,9 +97,3 @@ void CombatMovement::showMoveRange()
 			t->delGroup(Game::groupRange);
 	}
 }
-
-
-//void CombatMovement::unitsTurnF()
-//{
-//	unitsTurn = combatManager.getUnitsTurn();
-//} 

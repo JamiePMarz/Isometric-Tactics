@@ -22,14 +22,23 @@ void CombatPlacement::update()
 	Entity* e = roster[placedCount];
 
 	e->getComponent<SpriteComponent>().inBattleTeam = true;
-	e->getComponent<TransformComponent>().moveByGrid(Keyboard_Mouse::getGridPos());
+	e->getComponent<TransformComponent>().moveByGrid(Keyboard_Mouse::getGrid());//add height offset here?
 
 
 	if (Keyboard_Mouse::leftClick() && canPlaceHere())
 		placeUnits();
+		
 
-	if (Keyboard_Mouse::rightClick() && placedCount > 0 || placedCount == maxParty || placedCount == roster.size())
+	if (placedCount == maxParty || placedCount == roster.size())
 		finishPlacement();
+
+
+	if (Keyboard_Mouse::rightClick() && placedCount > 0)
+	{
+		finishPlacement();
+		e->getComponent<SpriteComponent>().inBattleTeam = false;
+	}
+		
 }
 
 bool CombatPlacement::canPlaceHere()
@@ -37,7 +46,7 @@ bool CombatPlacement::canPlaceHere()
 	for (auto& t : cpTiles)
 	{
 		auto& tc = t->getComponent<TileComponent>();
-		Vector2D tcGridPos = tc.getGridPosition();
+		Vector2D tcGridPos = tc.getGrid();
 		if (tc.placeHere && Keyboard_Mouse::hover(tcGridPos))
 		{
 			tc.blocked = true;
@@ -51,21 +60,19 @@ void CombatPlacement::placeUnits()
 {
 	Entity* e = roster[placedCount];
 	e->getComponent<SpriteComponent>().inBattleTeam = true;
-	e->getComponent<TransformComponent>().moveByGrid(Keyboard_Mouse::getGridPos());
+	e->getComponent<TransformComponent>().moveByGrid(Keyboard_Mouse::getGrid());
 	placedCount++;
 }
 
 void CombatPlacement::finishPlacement()
 {
-	std::cout << "placement finished\n";
+	LOG("placement finished\n");
 
 	if (placedCount < maxParty && roster.size() < placedCount)
-	{
 		Entity* e = roster[placedCount];
-		e->getComponent<SpriteComponent>().inBattleTeam = false;
-	}
+
 	CombatManager::state = CombatManager::combatState::menu;
-	std::cout << "state is menu" << std::endl;
+	LOG("state is menu\n");
 	placedCount = 0;
 	finPlace = true;
 	for (auto& t : cpTiles)

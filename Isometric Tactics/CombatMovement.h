@@ -3,32 +3,30 @@
 #include "Keyboard_Mouse.h"
 #include "Components.h"
 #include "CombatManager.h"
+//#include "CombatComponent.h"
+#include "Macros.h"
 
 class CombatManager;
 
 
-class CombatMovement
+class CombatMovement //: public CombatComponent
 {
 public:
 
 	CombatMovement(EntityManager& eManager, CombatManager& cManager);
 
-	void update();
+	void update(); //override;
 
 	void move();
 
 	bool unitCanMoveHere();
 	void showMoveRange();
-	
-	void unitsTurnF();
 
 	
 	//getters and setters
-	static void setUnitsTurn(Entity* setUnitsTurn) { unitsTurn = setUnitsTurn; }
-
+	static void setUnitsTurn(Entity* newUnit) { unitsTurn = newUnit; }
 
 	//pub vars
-	
 
 
 private:

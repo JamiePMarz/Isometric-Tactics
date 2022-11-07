@@ -1,9 +1,12 @@
 #pragma once
-#include <map>
+#include <fstream>
 #include <string>
+#include <map>
 #include <SDL.h>
 #include "TextureManager.h"
 #include "IsoMap.h"
+
+
 
 
 class AssetManager
@@ -12,8 +15,7 @@ public:
 	AssetManager();
 	~AssetManager();
 
-	void createMapAsset(const char* tsPath, int scale, int tileSize, std::string mapPath, int width, int height, std::string mapKey);
-
+	void createMapAsset(const char* tsPath, int scale, std::string mapPath, std::string mapKey);
 
 
 	void addTexture(std::string id, const char* path);

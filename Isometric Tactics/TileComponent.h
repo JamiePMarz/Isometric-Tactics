@@ -25,8 +25,10 @@ public:
 	Entity* up = nullptr;
 
 	//getters and setter
-	Vector2D getPosition() const { return screenPos; }
-	Vector2D getGridPosition() const { return gridPos; }
+	Vector2D getScreen() const { return screen; }
+	void addScreenY(int y) { screen.y += y; }
+
+	Vector2D getGrid() const { return grid; }
 
 	SDL_Texture* getTex() const { return texture; }
 
@@ -43,6 +45,6 @@ public:
 private:
 	SDL_Texture* texture;
 	SDL_Rect src, dest;
-	Vector2D screenPos, gridPos;
+	Vector2D screen, grid;
 
 };

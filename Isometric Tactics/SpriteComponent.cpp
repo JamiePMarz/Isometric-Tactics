@@ -49,8 +49,8 @@ void SpriteComponent::update()
 	
 	//dest.x = static_cast<int>(transform->position.x) - Game::camera.x;
 	//dest.y = static_cast<int>(transform->position.y) - Game::camera.y;
-	dest.x = static_cast<int>(transform->screenPos.x);
-	dest.y = static_cast<int>(transform->screenPos.y);
+	dest.x = static_cast<int>(transform->screen.x);
+	dest.y = static_cast<int>(transform->screen.y);
 	dest.w = transform->scale * transform->width;
 	dest.h = transform->scale * transform->height;
 }

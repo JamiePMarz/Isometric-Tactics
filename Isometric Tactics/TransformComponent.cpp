@@ -3,26 +3,26 @@
 
 TransformComponent::TransformComponent()
 {
-	screenPos.zero();
+	screen.zero();
 }
 
 TransformComponent::TransformComponent(int aScale)
 {
-	screenPos.zero();
+	screen.zero();
 	scale = aScale;
 }
 
 TransformComponent::TransformComponent(float x, float y)
 {
-	screenPos.x = x;
-	screenPos.y = y;
+	screen.x = x;
+	screen.y = y;
 }
 
 TransformComponent::TransformComponent(int x, int y, int aHeight, int aWidth, int aScale)
 {
-	gridPos.x = x;
-	gridPos.y = y;
-	IsometricGrid::screenFromGrid(screenPos, gridPos);
+	grid.x = static_cast<float>(x);
+	grid.y = static_cast<float>(y);
+	IsometricGrid::screenFromGrid(screen, grid);
 	height = aHeight;
 	width = aWidth;
 	scale = aScale;
@@ -35,13 +35,13 @@ void TransformComponent::initialize()
 
 void TransformComponent::update()
 {
-	screenPos.x += static_cast<int>(velocity.x * speed);
-	screenPos.y += static_cast<int>(velocity.y * speed);
+	screen.x += static_cast<float>(velocity.x * speed);
+	screen.y += static_cast<float>(velocity.y * speed);
 }
 
-void TransformComponent::moveByGrid(Vector2D& grid)
+void TransformComponent::moveByGrid(Vector2D& newGrid)
 {
-	gridPos.x = grid.x;
-	gridPos.y = grid.y;
-	IsometricGrid::screenFromGrid(screenPos, gridPos);
+	grid.x = newGrid.x;
+	grid.y = newGrid.y;
+	IsometricGrid::screenFromGrid(screen, grid);
 }
