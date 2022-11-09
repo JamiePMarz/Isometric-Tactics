@@ -23,6 +23,7 @@ TileComponent::TileComponent(int srcX, int srcY, int xpos, int ypos, int tileSiz
 		selectable = false;
 		blocked = true;
 	}
+
 }
 
 TileComponent::~TileComponent()
@@ -40,6 +41,10 @@ void TileComponent::draw()
 
 	//within range
 	if (entity->hasGroup(EntityManager::groupRange))
+		TextureManager::drawTileTextures("tile_highlighted", dest);
+
+	//path
+	if (entity->hasGroup(EntityManager::groupPath))
 		TextureManager::drawTileTextures("tile_highlighted", dest);
 
 	//placement indicator

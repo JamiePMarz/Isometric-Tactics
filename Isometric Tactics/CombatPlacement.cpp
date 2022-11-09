@@ -26,11 +26,8 @@ void CombatPlacement::update()
 		LOG("left click + can place");
 	}
 		
-		
-
 	if (placedCount == maxParty || placedCount == cpRoster.size())
 		finishPlacement();
-
 
 	if (Keyboard_Mouse::rightClick() && placedCount > 0)
 	{
@@ -52,12 +49,8 @@ bool CombatPlacement::canPlaceHere()
 		if (t->getComponent<TileComponent>().placeHere && Keyboard_Mouse::hover(tGrid))
 		{
 			t->getComponent<TileComponent>().blocked = true;
-			if (placingUnit != nullptr)
-			{
-				placingUnit->getComponent<TransformComponent>().tile = t;//unnessessary //is this the cause??
-				combatManager->getUnitsTurn()->getComponent<TransformComponent>().tile = t;
-			}
-				
+			combatManager->getUnitsTurn()->getComponent<TransformComponent>().tile = t;//need logic condition?
+			//need to swap units turn to placing unit??
 			return true;
 		}
 	}
@@ -80,13 +73,13 @@ void CombatPlacement::finishPlacement()
 	auto& cpRoster = combatManager->entityManager.getGroup(EntityManager::groupRoster);
 	auto& cpTiles = combatManager->entityManager.getGroup(EntityManager::groupTiles);
 
-	LOG("placement finished\n");
+	LOG("placement finished");
 
 	if (placedCount < maxParty && cpRoster.size() < placedCount)
 		Entity* placingUnit = cpRoster[placedCount];
 
 	combatManager->state = CombatManager::menu;
-	LOG("state is menu\n");
+	LOG("state is menu");
 	placedCount = 0;
 	for (auto& t : cpTiles)
 	{

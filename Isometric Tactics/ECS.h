@@ -135,7 +135,8 @@ public:
 		groupClickable,
 		groupEnemies,
 		groupRange,
-		groupRoster
+		groupRoster,
+		groupPath
 
 	};
 

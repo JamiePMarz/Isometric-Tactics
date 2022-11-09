@@ -20,10 +20,19 @@ public:
 
 	//entity ptrs
 	//Entity* entity;//owner
-	Entity* right = nullptr;
-	Entity* down = nullptr;
-	Entity* left = nullptr;
-	Entity* up = nullptr;
+
+	enum TilePtrs
+	{
+		right,
+		down,
+		left,
+		up
+
+	};
+
+
+	 Entity* tileDir[4];
+
 
 	//getters and setter
 	Vector2D getScreen() const { return screen; }

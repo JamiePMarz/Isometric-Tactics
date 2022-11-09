@@ -10,10 +10,10 @@ CombatManager::CombatManager(EntityManager& eManager) : entityManager(eManager)
 
 void CombatManager::startCombat(std::string mapID)
 {	
-	LOG("combat starts\n");
+	LOG("combat starts");
 	isoMap = AssetManager::getIsoMap(mapID);
 	LOG("loading " << mapID << std::endl);
-	LOG("setting grid details\n");
+	LOG("setting grid details");
 	IsometricGrid isoGrid(isoMap->tileSet, isoMap->mapScale, isoMap->tileSize);
 	isoGrid.loadGrid(isoMap->mapPath);//could get map details straigth from isoMap->xyz
 
@@ -24,7 +24,7 @@ void CombatManager::startCombat(std::string mapID)
 
 void CombatManager::endCombat()
 {
-	LOG("combat ends\n");
+	LOG("combat ends");
 	auto& tiles(entityManager.getGroup(EntityManager::groupTiles));
 	auto& roster(entityManager.getGroup(EntityManager::groupRoster));
 
@@ -43,7 +43,7 @@ void CombatManager::update()
 {
 	if (Keyboard_Mouse::rightClick() && state != placement)
 	{
-		state = CombatManager::combatState::menu;
+		state = menu;
 		//LOG("state is menu\n");
 	}
 

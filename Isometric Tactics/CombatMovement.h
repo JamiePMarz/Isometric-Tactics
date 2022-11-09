@@ -15,7 +15,7 @@ public:
 
 	bool unitCanMoveHere();
 	void showMoveRange();
-	void checkRange(Entity* tilePtr, int move);
+	void pathFinding(TileComponent* tileComp, int move);
 	
 	//getters and setters
 

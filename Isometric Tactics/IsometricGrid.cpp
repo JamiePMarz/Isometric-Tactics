@@ -122,18 +122,25 @@ void IsometricGrid::tilePtrs(int width, int mapSize)
 	{
 		int index = t->getComponent<TileComponent>().gridIndex;
 
+		for (int i = 0; i < 4; i++)
+		{
+			t->getComponent<TileComponent>().tileDir[i] = nullptr;
+			//LOG("nullptrs set");
+		}
+			
 
+		//these pointers wrap the grid
 		if ((index + 1) % width != 0)
-			t->getComponent<TileComponent>().right = gridTiles[index + 1];
+			t->getComponent<TileComponent>().tileDir[TileComponent::right] = gridTiles[index + 1];
 
 		if (index < mapSize - width)
-			t->getComponent<TileComponent>().down = gridTiles[index + width];
+			t->getComponent<TileComponent>().tileDir[TileComponent::down] = gridTiles[index + width];
 		
 		if (index != 0 || index % width != 0)
-			t->getComponent<TileComponent>().left = gridTiles[index - 1];
+			t->getComponent<TileComponent>().tileDir[TileComponent::left] = gridTiles[index - 1];
 
 		if (index >= width)
-			t->getComponent<TileComponent>().up = gridTiles[index - width];
+			t->getComponent<TileComponent>().tileDir[TileComponent::up] = gridTiles[index - width];
 
 	}
 }
