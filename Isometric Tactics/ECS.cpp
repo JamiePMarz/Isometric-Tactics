@@ -7,7 +7,7 @@ Entity::Entity(EntityManager& manager) : entityManager(manager)
 
 Entity::~Entity()
 {
-	//std::cout << "entity destroyed\n";
+	//LOG("entity destroyed");
 	//delete this;
 }
 

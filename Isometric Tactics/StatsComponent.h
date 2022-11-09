@@ -7,12 +7,14 @@
 struct StatsComponent : public Component
 {
 	//movement
-	int maxMove = 4;
+	int maxMove = 8;
+	int jump = 1;
 	int currentMove = maxMove;
+
 	void moveReset() 
 	{ 
 		currentMove = maxMove; 
-		//LOG(currentMove);
+		LOG("resetting stats");
 	}
 
 };

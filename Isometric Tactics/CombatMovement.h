@@ -1,37 +1,27 @@
 #pragma once
-#include "ECS.h"
-#include "Keyboard_Mouse.h"
-#include "Components.h"
-#include "CombatManager.h"
-//#include "CombatComponent.h"
-#include "Macros.h"
-
-class CombatManager;
+#include "CombatComponents.h"
 
 
-class CombatMovement //: public CombatComponent
+class CombatMovement : public CombatComponent
 {
 public:
 
-	CombatMovement(EntityManager& eManager, CombatManager& cManager);
+	CombatMovement();
+	~CombatMovement() {}
 
-	void update(); //override;
+	void update() override;
 
 	void move();
 
 	bool unitCanMoveHere();
 	void showMoveRange();
-
+	void checkRange(Entity* tilePtr, int move);
 	
 	//getters and setters
-	static void setUnitsTurn(Entity* newUnit) { unitsTurn = newUnit; }
 
 	//pub vars
 
 
 private:
-	EntityManager& entityManager;
-	CombatManager& combatManager;
-	static Entity* unitsTurn;
 
 };

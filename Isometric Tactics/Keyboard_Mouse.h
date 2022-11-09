@@ -1,7 +1,7 @@
 #pragma once
 #include "Vector2D.h"
 #include "IsometricGrid.h"
-#include "SDL.h"
+#include <SDL.h>
 #include "Macros.h"
 
 
@@ -25,8 +25,12 @@ public:
 
 	static Vector2D& getScreen() { return screen; }
 	static Vector2D& getGrid() { return grid; }
-	
+
+	//public vars
+	static SDL_Event event;
+
 private:
 	static Vector2D screen, grid;
+	
 
 };

@@ -1,55 +1,63 @@
 #include "CombatPlacement.h"
 
-extern EntityManager entityManager;
-auto& roster(entityManager.getGroup(Game::groupRoster));
-auto& cpTiles(entityManager.getGroup(Game::groupTiles));
-
-extern CombatManager combatManager;
-
 int CombatPlacement::placedCount = 0;//because its the index :/
 int CombatPlacement::maxParty = 5;//because its compared to a static
-bool CombatPlacement::finPlace = false;
 
 
-CombatPlacement::CombatPlacement(EntityManager& eManager, CombatManager& cManager) : entityManager(eManager), combatManager(cManager)
+CombatPlacement::CombatPlacement()
 {}
 CombatPlacement::~CombatPlacement()
 {}
 
 void CombatPlacement::update()
 {
+	auto& cpRoster = combatManager->entityManager.getGroup(EntityManager::groupRoster);
+
+	//LOG("in placement");
 	//add a way to choose which units to add
-	Entity* e = roster[placedCount];
+	Entity* placingUnit = cpRoster[placedCount];
 
-	e->getComponent<SpriteComponent>().inBattleTeam = true;
-	e->getComponent<TransformComponent>().moveByGrid(Keyboard_Mouse::getGrid());//add height offset here?
-
+	placingUnit->getComponent<SpriteComponent>().inBattleTeam = true;
+	placingUnit->getComponent<TransformComponent>().moveByGrid(Keyboard_Mouse::getGrid());//add height offset here?
 
 	if (Keyboard_Mouse::leftClick() && canPlaceHere())
+	{
 		placeUnits();
+		LOG("left click + can place");
+	}
+		
 		
 
-	if (placedCount == maxParty || placedCount == roster.size())
+	if (placedCount == maxParty || placedCount == cpRoster.size())
 		finishPlacement();
 
 
 	if (Keyboard_Mouse::rightClick() && placedCount > 0)
 	{
 		finishPlacement();
-		e->getComponent<SpriteComponent>().inBattleTeam = false;
+		placingUnit->getComponent<SpriteComponent>().inBattleTeam = false;
 	}
 		
 }
 
+
 bool CombatPlacement::canPlaceHere()
 {
+	auto& cpTiles = combatManager->entityManager.getGroup(EntityManager::groupTiles);
+
 	for (auto& t : cpTiles)
 	{
-		auto& tc = t->getComponent<TileComponent>();
-		Vector2D tcGridPos = tc.getGrid();
-		if (tc.placeHere && Keyboard_Mouse::hover(tcGridPos))
+		Vector2D tGrid = t->getComponent<TileComponent>().getGrid();
+
+		if (t->getComponent<TileComponent>().placeHere && Keyboard_Mouse::hover(tGrid))
 		{
-			tc.blocked = true;
+			t->getComponent<TileComponent>().blocked = true;
+			if (placingUnit != nullptr)
+			{
+				placingUnit->getComponent<TransformComponent>().tile = t;//unnessessary //is this the cause??
+				combatManager->getUnitsTurn()->getComponent<TransformComponent>().tile = t;
+			}
+				
 			return true;
 		}
 	}
@@ -58,23 +66,28 @@ bool CombatPlacement::canPlaceHere()
 
 void CombatPlacement::placeUnits()
 {
-	Entity* e = roster[placedCount];
-	e->getComponent<SpriteComponent>().inBattleTeam = true;
-	e->getComponent<TransformComponent>().moveByGrid(Keyboard_Mouse::getGrid());
+	auto& cpRoster = combatManager->entityManager.getGroup(EntityManager::groupRoster);
+
+	Entity* placingUnit = cpRoster[placedCount];
+	placingUnit->getComponent<SpriteComponent>().inBattleTeam = true;
+
+	placingUnit->getComponent<TransformComponent>().moveByGrid(Keyboard_Mouse::getGrid());
 	placedCount++;
 }
 
 void CombatPlacement::finishPlacement()
 {
+	auto& cpRoster = combatManager->entityManager.getGroup(EntityManager::groupRoster);
+	auto& cpTiles = combatManager->entityManager.getGroup(EntityManager::groupTiles);
+
 	LOG("placement finished\n");
 
-	if (placedCount < maxParty && roster.size() < placedCount)
-		Entity* e = roster[placedCount];
+	if (placedCount < maxParty && cpRoster.size() < placedCount)
+		Entity* placingUnit = cpRoster[placedCount];
 
-	CombatManager::state = CombatManager::combatState::menu;
+	combatManager->state = CombatManager::menu;
 	LOG("state is menu\n");
 	placedCount = 0;
-	finPlace = true;
 	for (auto& t : cpTiles)
 	{
 		t->getComponent<TileComponent>().placeHere = false;

@@ -149,7 +149,7 @@
     <ClInclude Include="Macros.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CombatComponent.h">
+    <ClInclude Include="CombatComponents.h">
       <Filter>Header Files\Combat</Filter>
     </ClInclude>
   </ItemGroup>

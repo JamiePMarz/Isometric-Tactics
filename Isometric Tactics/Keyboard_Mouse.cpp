@@ -2,6 +2,7 @@
 
 Vector2D Keyboard_Mouse::screen;
 Vector2D Keyboard_Mouse::grid;
+SDL_Event Keyboard_Mouse::event;
 
 
 Keyboard_Mouse::Keyboard_Mouse()
@@ -21,9 +22,9 @@ void Keyboard_Mouse::setMouseXY(int& mouseX, int& mouseY)
 
 bool Keyboard_Mouse::leftClick()
 {
-	if (Game::event.button.button == SDL_BUTTON_LEFT && Game::event.button.state == SDL_PRESSED)
+	if (event.button.button == SDL_BUTTON_LEFT && event.button.state == SDL_PRESSED)
 	{
-		//LOG(left mb pressed);
+		//LOG("left mb pressed");
 		return  true;
 	}
 	else
@@ -32,7 +33,7 @@ bool Keyboard_Mouse::leftClick()
 
 bool Keyboard_Mouse::rightClick()
 {
-	if (Game::event.button.button == SDL_BUTTON_RIGHT && Game::event.button.state == SDL_PRESSED)
+	if (event.button.button == SDL_BUTTON_RIGHT && event.button.state == SDL_PRESSED)
 	{
 		//LOG(right mb pressed);
 		return  true;
@@ -51,7 +52,7 @@ bool Keyboard_Mouse::hover(Vector2D& vector)
 
 bool Keyboard_Mouse::keyPress(SDL_KeyCode key)
 {
-	if (Game::event.type == SDL_KEYDOWN && Game::event.key.keysym.sym == key && Game::event.key.repeat == 0)
+	if (event.type == SDL_KEYDOWN && event.key.keysym.sym == key && event.key.repeat == 0)
 		return  true;
 	else
 		return false;

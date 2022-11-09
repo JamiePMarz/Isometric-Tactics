@@ -11,15 +11,14 @@ enum random : bool
 class UnitComponent : public Component
 {
 public:
-	UnitComponent(Entity* aEntity);
-	UnitComponent(Entity* aEntity, bool random);
+	UnitComponent();
+	UnitComponent(bool random);
 	~UnitComponent();
 
 	void initialize() override;
 
 
 	//public vars
-	Entity* entity;
 
 
 private:

@@ -39,7 +39,7 @@ void TileComponent::draw()
 		TextureManager::drawTileTextures("tile_cusor", dest);
 
 	//within range
-	if (entity->hasGroup(Game::groupRange))
+	if (entity->hasGroup(EntityManager::groupRange))
 		TextureManager::drawTileTextures("tile_highlighted", dest);
 
 	//placement indicator
@@ -59,7 +59,6 @@ void TileComponent::update()
 	dest.x = static_cast<int>(screen.x);
 	dest.y = static_cast<int>(screen.y);
 
-	if (CombatManager::getCombatState() != CombatManager::combatState::move)
-		entity->delGroup(Game::groupRange);
-
+	if (CombatManager::getCombatState() != CombatManager::move)
+		entity->delGroup(EntityManager::groupRange);
 }

@@ -1,18 +1,12 @@
 #include "Game.h"
-#include <algorithm>
 
 WindowManager* windowManager = nullptr;
 SDL_Renderer* WindowManager::renderer = nullptr;
 
-SDL_Event Game::event;
-
 Keyboard_Mouse* keyboardMouse = nullptr;
-
-AssetManager* Game::assets = nullptr;
 
 EntityManager entityManager;
 CombatManager* combatManager = nullptr;
-gameState Game::state = neutral;
 
 //move after movement reset deleted
 Entity& unit1(entityManager.addEntity()); 
@@ -31,7 +25,7 @@ void Game::initialize()
 {
 	windowManager = new WindowManager();
 	windowManager->initialize("Isometric Tactics", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 500, false);
-	running = windowManager->isInitialized();
+	running = windowManager->getInitialized();
 
 	keyboardMouse = new Keyboard_Mouse();
 
@@ -57,7 +51,21 @@ void Game::initialize()
 	assets->addTexture("collider", "Assets/collider.png");
 
 	combatManager = new CombatManager(entityManager);
-	combatManager->startCombat("map1");
+
+	CombatMovement* combatMove = new CombatMovement();
+	CombatMenu* combatMenu = new CombatMenu();
+	CombatPlacement* combatPlacement = new CombatPlacement();
+	combatManager->combatComponents.resize(combatManager->maxCCSize);
+	combatManager->combatComponents.assign(combatManager->maxCCSize, nullptr);
+	combatManager->combatComponents[CombatManager::move] = combatMove;
+	combatManager->combatComponents[CombatManager::menu] = combatMenu;
+	combatManager->combatComponents[CombatManager::placement] = combatPlacement;
+
+	for (auto& cc : combatManager->combatComponents)
+	{
+		if (cc != nullptr)
+			cc->combatManager = combatManager;
+	}
 
 	//units
 	unit1.addComponent<UnitComponent>(&unit1);
@@ -66,27 +74,51 @@ void Game::initialize()
 	unit4.addComponent<UnitComponent>(&unit4);
 	unit5.addComponent<UnitComponent>(&unit5);
 
-	unit1.addGroup(groupRoster);
-	unit2.addGroup(groupRoster);
-	unit3.addGroup(groupRoster);
-	unit4.addGroup(groupRoster);
-	unit5.addGroup(groupRoster);
+	unit1.addGroup(EntityManager::groupRoster);
+	unit2.addGroup(EntityManager::groupRoster);
+	unit3.addGroup(EntityManager::groupRoster);
+	unit4.addGroup(EntityManager::groupRoster);
+	unit5.addGroup(EntityManager::groupRoster);
 
 	combatManager->setUnitsTurn(&unit1);
 
+#if MY_DEBUG == 1
 	LOG("press b to start map0\n"
 	 << "press n to start map1\n"
 	 << "press m to end combat\n");
+#endif
+}
 
+void Game::gameStartCombat(std::string mapID)
+{
+	if (state != combat)
+	{
+		state = combat;
+		if (combatManager != nullptr)
+			combatManager->startCombat(mapID);
+		else
+			std::cout << "combatManager == nullptr\n";
+	}
+}
+
+void Game::gameEndCombat()
+{
+	if (state == combat)
+	{
+		state = neutral;
+		combatManager->endCombat();
+	}
 }
 
 //below are group vectors
-auto& tiles(entityManager.getGroup(Game::groupTiles));
-auto& units(entityManager.getGroup(Game::groupUnits));
+auto& tiles(entityManager.getGroup(EntityManager::groupTiles));
+auto& units(entityManager.getGroup(EntityManager::groupUnits));
 
 void Game::handleEvents()
 {
 	SDL_PollEvent(&event);
+	Keyboard_Mouse::event = event;
+
 	switch (event.type)
 	{
 	case SDL_QUIT:
@@ -98,7 +130,7 @@ void Game::handleEvents()
 		keyboardMouse->setMouseXY(mouseX, mouseY);
 		break;
 
-	case SDL_MOUSEBUTTONDOWN:
+	case SDL_MOUSEBUTTONDOWN://does nothing
 		switch (event.button.button)
 		{
 		case SDL_BUTTON_LEFT:
@@ -111,39 +143,34 @@ void Game::handleEvents()
 		default:
 			break;
 		}
-	case SDL_KEYDOWN:
-
-		//escape
-		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)
-		{
-			LOG("escape pressed");
-			setRunning(false);
-		}
-
-		//b
-		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_b)
-		{
-			LOG("b pressed");
-			combatManager->startCombat("map0");
-		}
-
-		//n
-		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_n)
-		{
-			LOG("n pressed");
-			combatManager->startCombat("map1");
-		}
-
-		//m
-		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_m)
-		{
-			LOG("m pressed");
-			combatManager->endCombat();
-		}
 
 	default:
 		break;
 	}
+
+	//keyboard presses
+#if MY_DEBUG == 1
+	if (keyboardMouse->keyPress(SDLK_ESCAPE))
+		running = false;
+
+	if (keyboardMouse->keyPress(SDLK_b))
+	{
+		LOG("b pressed");
+		gameStartCombat("map0");
+	}
+
+	if (keyboardMouse->keyPress(SDLK_n))
+	{
+		LOG("n pressed");
+		gameStartCombat("map1");
+	}
+
+	if (keyboardMouse->keyPress(SDLK_m))
+	{
+		LOG("m pressed");
+		gameEndCombat();
+	}
+#endif
 }
 
 
@@ -151,7 +178,14 @@ void Game::update()
 {
 	entityManager.refresh();
 	entityManager.update();
-	combatManager->update();
+	switch (state)
+	{
+	case combat:
+		combatManager->update();
+		break;
+	default:
+		break;
+	}
 }
 
 

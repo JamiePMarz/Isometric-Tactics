@@ -7,8 +7,6 @@
 #include "IsoMap.h"
 
 
-
-
 class AssetManager
 {
 public:

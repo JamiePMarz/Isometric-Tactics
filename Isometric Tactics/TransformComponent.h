@@ -29,6 +29,7 @@ public:
 	int width = 32;
 	int scale = 2;
 	int speed = 4;
+	Entity* tile;
 
 private:
 	

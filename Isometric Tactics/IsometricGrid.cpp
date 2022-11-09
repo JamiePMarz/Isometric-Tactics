@@ -111,10 +111,8 @@ void IsometricGrid::addTile(int srcX, int srcY, int xpos, int ypos, int index, i
 
 	auto& tile(entityManager.addEntity());
 	tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, tileSize, mapScale, tileSetID, index, i, j);
-	tile.getComponent<TileComponent>().entity = &tile;
-
 	gridTiles[index] = &tile;
-	tile.addGroup(Game::groupTiles);
+	tile.addGroup(EntityManager::groupTiles);
 }
 
 

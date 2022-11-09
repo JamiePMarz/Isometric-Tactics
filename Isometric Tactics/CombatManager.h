@@ -1,19 +1,29 @@
 #pragma once
-#include "ECS.h"
-#include "CombatMovement.h"
-#include "CombatMenu.h"
-#include "CombatPlacement.h"
-#include "Components.h"
-#include "IsometricGrid.h"
 #include <string>
-#include "AssetManager.h"
 #include <vector>
+#include "Macros.h"
+#include "ECS.h"
+#include "AssetManager.h"
+#include "IsometricGrid.h"
 
-class CombatMovement;
-class CombatPlacement;
-class CombatMenu;
 class IsometricGrid;
 struct IsoMap;
+class CombatManager;
+
+
+class CombatComponent
+{
+public:
+
+	virtual ~CombatComponent() = default;
+	virtual void update() {}
+
+	CombatManager* combatManager;
+
+
+private:
+
+};
 
 
 class CombatManager
@@ -31,7 +41,7 @@ public:
 		item,
 		end,
 		placement,
-		//test
+		csCount
 
 	};
 
@@ -55,17 +65,16 @@ public:
 
 	//public vars
 	static combatState state;
+	std::vector<CombatComponent*> combatComponents;
+	const int maxCCSize = csCount;
+	EntityManager& entityManager;
 
 
 private:
-	EntityManager& entityManager;
 	Entity* unitsTurn;
-	CombatMovement* combatMove;
-	CombatMenu* combatMenu;
-	CombatPlacement* combatPlacement;
-	//CombatTest* combatTest;
 	
 	static IsometricGrid* isoGrid;
 	static IsoMap* isoMap;
+
 
 };

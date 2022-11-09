@@ -169,7 +169,7 @@
     <ClInclude Include="CombatMenu.h" />
     <ClInclude Include="CombatMovement.h" />
     <ClInclude Include="CombatPlacement.h" />
-    <ClInclude Include="CombatComponent.h" />
+    <ClInclude Include="CombatComponents.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="ECS.h" />
     <ClInclude Include="Game.h" />

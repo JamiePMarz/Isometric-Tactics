@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include "ECS.h"
 #include "AssetManager.h"
+#include "CombatManager.h"
 
 
 class TileComponent : public Component
@@ -18,7 +19,7 @@ public:
 	void update() override;
 
 	//entity ptrs
-	Entity* entity;//owner
+	//Entity* entity;//owner
 	Entity* right = nullptr;
 	Entity* down = nullptr;
 	Entity* left = nullptr;
@@ -40,7 +41,7 @@ public:
 	bool blocked = false;
 	bool placeHere = false;
 	int gridIndex;
-
+	int height = 0;
 
 private:
 	SDL_Texture* texture;

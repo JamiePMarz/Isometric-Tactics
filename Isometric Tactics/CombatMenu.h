@@ -1,11 +1,9 @@
 #pragma once
-#include "TextureManager.h"
-#include "CombatManager.h"
-
-class CombatManager;
+#include "CombatComponents.h"
+#include "Keyboard_Mouse.h"
 
 
-class CombatMenu
+class CombatMenu : public CombatComponent
 {
 public:
 
@@ -21,7 +19,7 @@ public:
 
 	};
 
-	CombatMenu(EntityManager& eManager, CombatManager& cManager);
+	CombatMenu();
 	~CombatMenu() {}
 
 	void update();
@@ -29,8 +27,6 @@ public:
 
 
 private:
-	EntityManager& entityManager;
-	CombatManager& combatManager;
 	static menuOptions option;
 
 };

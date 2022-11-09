@@ -1,19 +1,14 @@
 #pragma once
-#include <vector>
-#include "ECS.h"
-#include "CombatManager.h"
-#include "TextureManager.h"
-
-class CombatManager;
+#include "CombatComponents.h"
 
 
-class CombatPlacement
+class CombatPlacement : public CombatComponent
 {
 public:
-	CombatPlacement(EntityManager& eManager, CombatManager& cManager);
+	CombatPlacement();
 	~CombatPlacement();
 
-	void update();
+	void update() override;
 
 	void placeUnits();
 	void finishPlacement();
@@ -21,12 +16,9 @@ public:
 
 	//getters and setters
 	//public vars
-	static bool finPlace;
+	Entity* placingUnit = nullptr;
 
 private:
-	EntityManager& entityManager;
-	CombatManager& combatManager;
-
 	static int placedCount;
 	static int maxParty;
 	

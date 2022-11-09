@@ -15,10 +15,10 @@ public:
 	void windowClean();
 
 	//getters and setters
-	bool isInitialized() const { return initialized; }
+	bool getInitialized() const { return initialized; }
 
-	int getWindowHeight() const { return windowHeight; }
-	int getWindowWidth() const { return windowWidth; }
+	int getHeight() const { return windowHeight; }
+	int getWidth() const { return windowWidth; }
 
 	SDL_Window* getWindow() const { return window; }
 

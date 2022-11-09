@@ -127,6 +127,18 @@ public:
 	void AddToGroup(Entity* entity, Group group);
 	std::vector<Entity*>& getGroup(Group group);
 
+	enum groupLabels : std::size_t
+	{
+		groupTiles,
+		groupUnits,
+		groupColliders,
+		groupClickable,
+		groupEnemies,
+		groupRange,
+		groupRoster
+
+	};
+
 private:
 	EntityVectorUptr entities;
 	EntityArrayVectorPtr groupedEntities;

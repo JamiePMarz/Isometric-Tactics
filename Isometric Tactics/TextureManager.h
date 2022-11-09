@@ -3,7 +3,7 @@
 #include <SDL_image.h>
 #include <string>
 #include "WindowManager.h"
-#include "Game.h"
+#include "AssetManager.h"
 
 
 class TextureManager

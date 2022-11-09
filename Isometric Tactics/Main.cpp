@@ -2,8 +2,6 @@
 #include "Game.h"
 #include "Macros.h"
 
-
-
 Game* game = nullptr;
 
 
