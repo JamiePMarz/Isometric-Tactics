@@ -17,8 +17,7 @@ int main(int argc, char* argv[])
 	int frameDelay = 1000 / FPS;
 
 
-	while (game->getRunning())
-	{
+	while (game->getRunning()) {
 		frameStart = SDL_GetTicks();
 
 		game->handleEvents();
@@ -27,7 +26,7 @@ int main(int argc, char* argv[])
 
 		frameTime = SDL_GetTicks() - frameStart;
 
-		//LOG(frameTime);
+		//LOG("frameTime: " << frameTime);
 
 		if (frameDelay > frameTime)
 			SDL_Delay(frameDelay - frameTime);

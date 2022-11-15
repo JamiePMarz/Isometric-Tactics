@@ -25,26 +25,30 @@ void CombatManager::startCombat(std::string mapID)
 void CombatManager::endCombat()
 {
 	LOG("combat ends");
-	auto& tiles(entityManager.getGroup(EntityManager::groupTiles));
+	
 	auto& roster(entityManager.getGroup(EntityManager::groupRoster));
-
 	for (auto& entity : roster)
-	{
-		entity->getComponent<SpriteComponent>().inBattleTeam = false;
-	}
+		entity->getC<SpriteComponent>().drawBool = false;
 
+	auto& tiles(entityManager.getGroup(EntityManager::groupTiles));
 	for (auto& entity : tiles)
-	{
 		entity->setActive(false);
-	}
+
+	auto& path(entityManager.getGroup(EntityManager::groupPath));
+	for (auto& e : path)
+		e->delGroup(EntityManager::groupPath);
+
 }
 
 void CombatManager::update()
 {
-	if (Keyboard_Mouse::rightClick() && state != placement)
-	{
+	auto& path(entityManager.getGroup(EntityManager::groupPath));
+	if (Keyboard_Mouse::rightClick() && state != placement) {
 		state = menu;
 		//LOG("state is menu\n");
+		
+		for (auto& e : path)
+			e->delGroup(EntityManager::groupPath);
 	}
 
 
@@ -62,7 +66,7 @@ void CombatManager::setUnitsTurn(Entity* newUnit)
 void CombatManager::endTurn()
 {
 	LOG("turn ending\n");
-	unitsTurn->getComponent<StatsComponent>().moveReset();
+	unitsTurn->getC<StatsComponent>().moveReset();
 	//setUnitsTurn(unitsTurn);//placeholder
 	state = menu;
 }

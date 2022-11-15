@@ -30,7 +30,7 @@ void SpriteComponent::setTexture(std::string id)
 
 void SpriteComponent::initialize()
 {
-	transform = &entity->getComponent<TransformComponent>();
+	transform = &entity->getC<TransformComponent>();
 
 	src.x = src.y = 0;
 	src.w = transform->width;
@@ -39,8 +39,7 @@ void SpriteComponent::initialize()
 
 void SpriteComponent::update()
 {
-	if (animated)
-	{
+	if (animated) {
 		src.x = src.w * static_cast<int>((SDL_GetTicks() / spriteSpeed) % spriteFrames);
 		// % spriteFrames(8) will give any value in multiples of spriteFrames of the result of srcRect.w(32) * GetTicks / 100
 	}
@@ -57,7 +56,7 @@ void SpriteComponent::update()
 
 void SpriteComponent::draw()
 {
-	if (inBattleTeam)
+	if (drawBool)
 		TextureManager::drawTexture(texture, src, dest, spriteFlip);
 }
 

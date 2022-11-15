@@ -37,6 +37,8 @@ void Game::initialize()
 	assets->createMapAsset("Assets/map1_ts.png", scale, "Assets/map1_10x8.map", "map1");
 	assets->createMapAsset("Assets/map2_ts.png", scale, "Assets/map2_10x10.map", "map2");
 	assets->createMapAsset("Assets/map3_ts.png", scale, "Assets/map3_19x10.map", "map3");
+	assets->createMapAsset("Assets/map4_ts.png", scale, "Assets/map4.map", "map4");
+	//not loading correct ts. loads first ts path
 
 	//unit sprites
 	assets->addTexture("ph_1", "Assets/ph_1.png");
@@ -61,20 +63,21 @@ void Game::initialize()
 	combatManager->combatComponents[CombatManager::menu] = combatMenu;
 	combatManager->combatComponents[CombatManager::placement] = combatPlacement;
 
-	for (auto& cc : combatManager->combatComponents)
-	{
+	for (auto& cc : combatManager->combatComponents) {
 		if (cc != nullptr)
 			cc->combatManager = combatManager;
 	}
 
 	//units
-	unit1.addComponent<UnitComponent>(&unit1);
-	unit2.addComponent<UnitComponent>(&unit2);
-	unit3.addComponent<UnitComponent>(&unit3);
-	unit4.addComponent<UnitComponent>(&unit4);
-	unit5.addComponent<UnitComponent>(&unit5);
+	unit1.addC<UnitComponent>(&unit1);
+	unit2.addC<UnitComponent>(&unit2);
+	unit3.addC<UnitComponent>(&unit3);
+	unit4.addC<UnitComponent>(&unit4);
+	unit5.addC<UnitComponent>(&unit5);
 
 	unit1.addGroup(EntityManager::groupRoster);
+	/*unit1.addGroup(EntityManager::groupRender);*/
+
 	unit2.addGroup(EntityManager::groupRoster);
 	unit3.addGroup(EntityManager::groupRoster);
 	unit4.addGroup(EntityManager::groupRoster);
@@ -91,8 +94,7 @@ void Game::initialize()
 
 void Game::gameStartCombat(std::string mapID)
 {
-	if (state != combat)
-	{
+	if (state != combat) {
 		state = combat;
 		if (combatManager != nullptr)
 			combatManager->startCombat(mapID);
@@ -103,8 +105,7 @@ void Game::gameStartCombat(std::string mapID)
 
 void Game::gameEndCombat()
 {
-	if (state == combat)
-	{
+	if (state == combat) {
 		state = neutral;
 		combatManager->endCombat();
 	}
@@ -113,14 +114,14 @@ void Game::gameEndCombat()
 //below are group vectors
 auto& tiles(entityManager.getGroup(EntityManager::groupTiles));
 auto& units(entityManager.getGroup(EntityManager::groupUnits));
+//auto& renderG(entityManager.getGroup(EntityManager::groupRender));
 
 void Game::handleEvents()
 {
 	SDL_PollEvent(&event);
 	Keyboard_Mouse::event = event;
 
-	switch (event.type)
-	{
+	switch (event.type) {
 	case SDL_QUIT:
 		running = false;
 		break;
@@ -153,20 +154,17 @@ void Game::handleEvents()
 	if (keyboardMouse->keyPress(SDLK_ESCAPE))
 		running = false;
 
-	if (keyboardMouse->keyPress(SDLK_b))
-	{
+	if (keyboardMouse->keyPress(SDLK_b)) {
 		LOG("b pressed");
-		gameStartCombat("map0");
-	}
-
-	if (keyboardMouse->keyPress(SDLK_n))
-	{
-		LOG("n pressed");
 		gameStartCombat("map1");
 	}
 
-	if (keyboardMouse->keyPress(SDLK_m))
-	{
+	if (keyboardMouse->keyPress(SDLK_n)) {
+		LOG("n pressed");
+		gameStartCombat("map0");
+	}
+
+	if (keyboardMouse->keyPress(SDLK_m)) {
 		LOG("m pressed");
 		gameEndCombat();
 	}
@@ -178,8 +176,7 @@ void Game::update()
 {
 	entityManager.refresh();
 	entityManager.update();
-	switch (state)
-	{
+	switch (state) {
 	case combat:
 		combatManager->update();
 		break;
@@ -193,13 +190,30 @@ void Game::render()
 {
 	SDL_RenderClear(WindowManager::renderer);
 
+	//sort(renderG.begin(), renderG.end(),
+	//	[](const Entity* e1, const Entity* e2) {
+	//		if (e1->hasC<TransformComponent>() && e2->hasC<TransformComponent>())
+	//			return e1->getC<TransformComponent>().grid.y < e2->getC<TransformComponent>().grid.y;
+
+	//		if (e1->hasC<TileComponent>() && e2->hasC<TileComponent>())
+	//			return e1->getC<TileComponent>().getGrid().y < e2->getC<TileComponent>().getGrid().y;
+
+	//		if (e1->hasC<TileComponent>() && e2->hasC<TransformComponent>())
+	//			return e1->getC<TileComponent>().getGrid().y < e2->getC<TransformComponent>().grid.y + 1;
+
+	//		if (e2->hasC<TileComponent>() && e1->hasC<TransformComponent>())
+	//			return e2->getC<TileComponent>().getGrid().y > e1->getC<TransformComponent>().grid.y + 1;
+
+	//	});
+
+	//for (auto& r : renderG) { r->draw(); }
+
 	for (auto& t : tiles) { t->draw(); }
 
 	sort(units.begin(), units.end(),
-		[](const Entity* e1, const Entity* e2)
-		{
-			return e1->getComponent<TransformComponent>().grid.y < e2->getComponent<TransformComponent>().grid.y;
-		});
+		[](const Entity* e1, const Entity* e2) {
+			return e1->getC<TransformComponent>().grid.y < e2->getC<TransformComponent>().grid.y;
+		});//cant sort tiles because they dont have a transform
 
 	for (auto& u : units) { u->draw(); }
 

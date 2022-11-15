@@ -64,13 +64,13 @@ public:
 	void draw();
 
 	//components
-	template <typename T> bool hasComponent() const
+	template <typename T> bool hasC() const
 	{
 		return componentBitSet[getComponentTypeID<T>()];
 	}
 
 	template <typename T, typename... TArgs>
-	T& addComponent(TArgs&&... args)
+	T& addC(TArgs&&... args)
 	{
 		T* c(new T(std::forward<TArgs>(args)...));
 		c->entity = this;
@@ -84,7 +84,7 @@ public:
 		return *c;
 	}
 
-	template<typename T> T& getComponent() const
+	template<typename T> T& getC() const
 	{
 		auto ptr(componentArray[getComponentTypeID<T>()]);
 		return *static_cast<T*>(ptr);
@@ -136,7 +136,8 @@ public:
 		groupEnemies,
 		groupRange,
 		groupRoster,
-		groupPath
+		groupPath,
+		groupRender
 
 	};
 

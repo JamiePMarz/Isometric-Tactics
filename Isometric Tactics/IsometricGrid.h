@@ -22,9 +22,12 @@ public:
 
 	static void screenFromGrid(Vector2D& screen, Vector2D& grid);
 	static void gridFromScreen(Vector2D& grid, Vector2D& screen);
+	//static void gridFromScreen(Vector2D& grid, Vector2D& screen, int height);
+	static Vector2D& gridFromScreen(Vector2D& grid, Vector2D& screen, int height);
 
 	static const std::vector<Entity*> getGridTiles() { return gridTiles; }
 
+	static int getScaledSize() { return scaledSize; }
 	//public vars
 
 private:

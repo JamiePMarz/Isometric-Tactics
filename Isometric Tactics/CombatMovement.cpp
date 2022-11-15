@@ -1,110 +1,99 @@
 #include "CombatMovement.h"
-
+int CombatMovement::cntPF = 0;
+bool CombatMovement::showPath = false;
 
 CombatMovement::CombatMovement()
 {}
 
 void CombatMovement::update()
 {
-	//LOG("cm update begins");
 	Entity* e = combatManager->getUnitsTurn();
-	if (e->getComponent<StatsComponent>().currentMove == 0)
+	if (e->getC<StatsComponent>().currentMove == 0) {
 		combatManager->state = CombatManager::menu;
-
-	//showMoveRange();
-	if (e->getComponent<TransformComponent>().tile == nullptr)
-		LOG("cm update tile == nullptr");
-	pathFinding(&e->getComponent<TransformComponent>().tile->getComponent<TileComponent>(), e->getComponent<StatsComponent>().currentMove);
-	if (Keyboard_Mouse::leftClick())
-	{
-		move();
-		LOG("combat move left click\n");
+		LOG("No movement");
 	}
-	//LOG("cm update ends");
+	
+	if (showPath) {
+		size_t timestart = SDL_GetTicks();
+		cntPF = 0;
+		int directions[] = { -1,-1 };
+		pathFinding(&e->getC<TransformComponent>().tile->getC<TileComponent>(), e->getC<StatsComponent>().currentMove, directions);
+		LOG(SDL_GetTicks() - timestart);
+		showPath = false;
+		LOG("paths calc'd: " << cntPF);
+	}
+
+	if (Keyboard_Mouse::leftClick()) {
+		move();
+	}
 }
 
 void CombatMovement::move()
 {
-	auto& cmTiles = combatManager->entityManager.getGroup(EntityManager::groupTiles);
-	auto& cmPath = combatManager->entityManager.getGroup(EntityManager::groupPath);
-	auto& eTransComp = combatManager->getUnitsTurn()->getComponent<TransformComponent>();
-	if (unitCanMoveHere())
-	{
-		for (auto& t : cmTiles)
-		{
-			if (eTransComp.grid == t->getComponent<TileComponent>().getGrid())
-				t->getComponent<TileComponent>().blocked = false;
-			if (Keyboard_Mouse::getGrid() == t->getComponent<TileComponent>().getGrid())
-				t->getComponent<TileComponent>().blocked = true;
+	auto& groupTiles = combatManager->entityManager.getGroup(EntityManager::groupTiles);
+	auto& groupPath = combatManager->entityManager.getGroup(EntityManager::groupPath);
+	Entity* e = combatManager->getUnitsTurn();
+	Entity* eTile = e->getC<TransformComponent>().tile;
+
+	if (unitCanMoveHere()) {
+		eTile->getC<TileComponent>().blocked = false;
+		for (auto& t : groupTiles) {
+			Vector2D mGrid = IsometricGrid::gridFromScreen(Keyboard_Mouse::getGrid(), Keyboard_Mouse::getScreen(), t->getC<TileComponent>().height);
+
+			if (mGrid == t->getC<TileComponent>().getGrid()) {
+				t->getC<TileComponent>().blocked = true;
+			}
+			e->getC<TransformComponent>().moveByGrid(mGrid);
 		}
-		eTransComp.moveByGrid(Keyboard_Mouse::getGrid());
-		LOG("entity grid: " << combatManager->getUnitsTurn()->getComponent<TransformComponent>().grid);
 		combatManager->state = CombatManager::menu;
-		for (auto& e : cmPath)
-		{
+		for (auto& e : groupPath) {
 			e->delGroup(EntityManager::groupPath);
 		}
-
 	}
 }
 
 bool CombatMovement::unitCanMoveHere()
 {
-	auto& cmTiles = combatManager->entityManager.getGroup(EntityManager::groupPath);
+	auto& groupPath = combatManager->entityManager.getGroup(EntityManager::groupPath);
+	Entity* e = combatManager->getUnitsTurn();
+	Vector2D eGrid = e->getC<TransformComponent>().grid;
+	Vector2D mGrid;
 
-	Vector2D unitPos = combatManager->getUnitsTurn()->getComponent<TransformComponent>().grid;
-	Vector2D mousePos = Keyboard_Mouse::getGrid();
-	Entity* tPtr = nullptr;
-	TileComponent* tileC = nullptr;
-	for (auto& t : cmTiles)
-	{
-		if (t->getComponent<TileComponent>().getGrid() == mousePos)
-		{
-			tileC = &t->getComponent<TileComponent>();
-			tPtr = t;
+	for (Entity* t : groupPath) {
+		mGrid = IsometricGrid::gridFromScreen(Keyboard_Mouse::getGrid(), Keyboard_Mouse::getScreen(), t->getC<TileComponent>().height);
+		if (t->getC<TileComponent>().getGrid() == mGrid) {
+			e->getC<TransformComponent>().tile = t;
+
+			int xDist = abs(eGrid.x - mGrid.x);
+			int yDist = abs(eGrid.y - mGrid.y);
+			e->getC<StatsComponent>().currentMove -= xDist + yDist;
+
+			LOG("move left: " << e->getC<StatsComponent>().currentMove);
+			return true;
 		}
 	}
-	if (tileC == nullptr)
-		return false;
 
-	int xDist = abs(unitPos.x - mousePos.x);
-	int yDist = abs(unitPos.y - mousePos.y);
-
-	if (combatManager->getUnitsTurn()->getComponent<StatsComponent>().currentMove >= xDist + yDist && !tileC->blocked)
-	{
-		combatManager->getUnitsTurn()->getComponent<StatsComponent>().currentMove -= xDist + yDist;
-		LOG("move left: " << combatManager->getUnitsTurn()->getComponent<StatsComponent>().currentMove);
-		combatManager->getUnitsTurn()->getComponent<TransformComponent>().tile = tPtr;
-		LOG("tile in transComp: " << tPtr->getComponent<TileComponent>().getGrid());
-		tPtr = nullptr;
-		return true;
-	}
-	else
-	{
-		LOG("unit can't move\n");
-		tPtr = nullptr;
-		return false;
-	}
+	LOG("unit can't move\n");
+	return false;
 }
-
 
 
 void CombatMovement::showMoveRange()//alter for attack component targeting
 {
 	auto& cmTiles = combatManager->entityManager.getGroup(EntityManager::groupTiles);
 
-	int moveRange = combatManager->getUnitsTurn()->getComponent<StatsComponent>().currentMove;
-	Vector2D unitPos = combatManager->getUnitsTurn()->getComponent<TransformComponent>().grid;
-	Entity* baseTile = combatManager->getUnitsTurn()->getComponent<TransformComponent>().tile;
+	int moveRange = combatManager->getUnitsTurn()->getC<StatsComponent>().currentMove;
+	Vector2D unitPos = combatManager->getUnitsTurn()->getC<TransformComponent>().grid;
+	Entity* baseTile = combatManager->getUnitsTurn()->getC<TransformComponent>().tile;
 
 	for (auto& t : cmTiles)
 	{
-		Vector2D tilePos = t->getComponent<TileComponent>().getGrid();
+		Vector2D tilePos = t->getC<TileComponent>().getGrid();
 		
 		int xDist = abs(unitPos.x - tilePos.x);
 		int yDist = abs(unitPos.y - tilePos.y);
 
-		if (combatManager->getUnitsTurn()->getComponent<StatsComponent>().currentMove >= xDist + yDist && t->getComponent<TileComponent>().blocked == false)
+		if (combatManager->getUnitsTurn()->getC<StatsComponent>().currentMove >= xDist + yDist && t->getC<TileComponent>().blocked == false)
 			t->addGroup(EntityManager::groupRange);
 		else
 			t->delGroup(EntityManager::groupRange);
@@ -112,56 +101,50 @@ void CombatMovement::showMoveRange()//alter for attack component targeting
 }
 
 
-void CombatMovement::pathFinding(TileComponent* tileComp, int move)
+void CombatMovement::pathFinding(TileComponent* tileComp, int move, int* directions)
 {
-
-	//LOG(move);
-	if (move == 0)
-	{
+	if (move == 0) { 
 		//LOG("move = 0 so return (start)");
-		return;
+		return; 
 	}
-		
-	int comparison;
 
-	for (int i = 0; i < 4; i++)
-	{
-		if (tileComp->tileDir[i] != nullptr)
-		{
-			bool add = true;
-			auto& tempTC = tileComp->tileDir[i]->getComponent<TileComponent>();
-			comparison = abs(tileComp->height - tempTC.height);
-			//LOG("comparison: " << comparison);
-			if (move > 0 && comparison < combatManager->getUnitsTurn()->getComponent<StatsComponent>().jump && tempTC.blocked == false)
-			{
-				auto& cmRange = combatManager->entityManager.getGroup(EntityManager::groupPath);
-				for (auto t : cmRange)
-				{
-					if (t->getComponent<TileComponent>().getGrid() == tempTC.getGrid())
-					{
-						//LOG("tile wont be added, it is in group range");
-						add = false;
-					}
-				}
-				if (add)
-				{
-					//LOG("tile added to range");
-					tempTC.entity->addGroup(EntityManager::groupPath);
-				}
-			}
-		}
-	}
+	++cntPF;
+
+	auto& cmPath = combatManager->entityManager.getGroup(EntityManager::groupPath);
+	auto& cmRoster = combatManager->entityManager.getGroup(EntityManager::groupRoster);
+	Entity* e = combatManager->getUnitsTurn();
 
 	move--;
-	if (move == 0)
-	{
-		//LOG("move = 0 so return (end)");
-		return;
+
+	for (int i = 0; i < 4; i++) {
+		if (directions[1] + i == 3) continue;//up+down or right+left
+		if (directions[0] + i == 3) continue;//up+right/left+down or right+up/down+left
+		if (tileComp->tileDir[i] == nullptr) continue;//edge
+
+		if (tileComp->tileDir[i]->getC<TileComponent>().blocked) continue;
+
+		//if (tileComp->tileDir[i]->getC<TileComponent>().blocked) {
+		//	bool stillCalc = false;
+		//	for (auto& e : cmRoster) {
+		//		if (tileComp->tileDir[i]->getC<TileComponent>().getGrid() == e->getC<TransformComponent>().grid && e->hasGroup(EntityManager::groupRoster)) {
+		//			stillCalc = true;
+		//		}
+		//	}
+		//	if (!stillCalc) continue;
+		//}
+
+		if (e->getC<StatsComponent>().jump < abs(tileComp->height - tileComp->tileDir[i]->getC<TileComponent>().height)) continue;
+
+		if (!tileComp->tileDir[i]->hasGroup(EntityManager::groupPath)) {
+			tileComp->tileDir[i]->addGroup(EntityManager::groupPath);
+		}
+
+		int newDirections[] = { directions[1],i };
+		pathFinding(&tileComp->tileDir[i]->getC<TileComponent>(), move, newDirections);
 	}
 
-	for (int j = 0; j < 4; j++)
-	{
-		if (tileComp->tileDir[j] != nullptr && !tileComp->tileDir[j]->getComponent<TileComponent>().blocked)
-			pathFinding(&tileComp->tileDir[j]->getComponent<TileComponent>(), move);
+	if (move == 0) {
+		//LOG("move = 0 so return (end)");
+		return;
 	}
 }

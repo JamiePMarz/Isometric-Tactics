@@ -30,7 +30,7 @@ public:
 	void play(const char* animationName);
 
 	//public vars
-	bool inBattleTeam = false;
+	bool drawBool = false;
 
 	//getters and setters
 	void setTexture(std::string id);

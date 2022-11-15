@@ -36,7 +36,7 @@ void IsometricGrid::loadGrid(std::string path)
 
 	int mapSize = mapWidth * mapHeight;
 	xOffSet = mapHeight * scaledSize / 2;
-	yOffSet = 0;
+	yOffSet = scaledSize;
 
 	gridTiles.clear();
 	gridTiles.resize(mapSize);
@@ -45,10 +45,8 @@ void IsometricGrid::loadGrid(std::string path)
 	int index = 0;
 
 	//sprite/tile
-	for (int j = 0; j < mapHeight; j++)
-	{
-		for (int i = 0; i < mapWidth; i++)
-		{
+	for (int j = 0; j < mapHeight; j++) {
+		for (int i = 0; i < mapWidth; i++) {
 			mapFile.get(c);
 			srcY = atoi(&c) * tileSize;
 			mapFile.get(c);
@@ -67,14 +65,12 @@ void IsometricGrid::loadGrid(std::string path)
 
 
 	//placement
-	for (int k = 0; k < mapHeight; k++)
-	{
-		for (int l = 0; l < mapWidth; l++)
-		{
+	for (int k = 0; k < mapHeight; k++) {
+		for (int l = 0; l < mapWidth; l++) {
 			mapFile.get(c);
 
 			if (c == 'p')
-				gridTiles[index]->getComponent<TileComponent>().placeHere = true;
+				gridTiles[index]->getC<TileComponent>().placeHere = true;
 
 			index++;
 			mapFile.ignore();
@@ -85,15 +81,14 @@ void IsometricGrid::loadGrid(std::string path)
 	index = 0;
 
 	//height
-	for (int m = 0; m < mapHeight; m++)
-	{
-		for (int n = 0; n < mapWidth; n++)
-		{
-			mapFile.get(c);
-			int height = atoi(&c);
+	for (int m = 0; m < mapHeight; m++) {
+		for (int n = 0; n < mapWidth; n++) {
+			int height;
+			mapFile >> height;
 
-			if (height != 0)
-				gridTiles[index]->getComponent<TileComponent>().addScreenY(-(scaledSize / 4 * height));
+			if (height != 0) {
+				gridTiles[index]->getC<TileComponent>().addHeight(height, scaledSize);
+			}
 
 			index++;
 			mapFile.ignore();
@@ -110,7 +105,7 @@ void IsometricGrid::addTile(int srcX, int srcY, int xpos, int ypos, int index, i
 {
 
 	auto& tile(entityManager.addEntity());
-	tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, tileSize, mapScale, tileSetID, index, i, j);
+	tile.addC<TileComponent>(srcX, srcY, xpos, ypos, tileSize, mapScale, tileSetID, index, i, j);
 	gridTiles[index] = &tile;
 	tile.addGroup(EntityManager::groupTiles);
 }
@@ -120,27 +115,24 @@ void IsometricGrid::tilePtrs(int width, int mapSize)
 {
 	for (auto& t : gridTiles)
 	{
-		int index = t->getComponent<TileComponent>().gridIndex;
+		int index = t->getC<TileComponent>().gridIndex;
 
-		for (int i = 0; i < 4; i++)
-		{
-			t->getComponent<TileComponent>().tileDir[i] = nullptr;
-			//LOG("nullptrs set");
+		for (int i = 0; i < 4; i++) {
+			t->getC<TileComponent>().tileDir[i] = nullptr;
 		}
 			
 
-		//these pointers wrap the grid
 		if ((index + 1) % width != 0)
-			t->getComponent<TileComponent>().tileDir[TileComponent::right] = gridTiles[index + 1];
+			t->getC<TileComponent>().tileDir[TileComponent::right] = gridTiles[index + 1];
 
 		if (index < mapSize - width)
-			t->getComponent<TileComponent>().tileDir[TileComponent::down] = gridTiles[index + width];
+			t->getC<TileComponent>().tileDir[TileComponent::down] = gridTiles[index + width];
 		
-		if (index != 0 || index % width != 0)
-			t->getComponent<TileComponent>().tileDir[TileComponent::left] = gridTiles[index - 1];
+		if (index != 0 && index % width != 0)
+			t->getC<TileComponent>().tileDir[TileComponent::left] = gridTiles[index - 1];
 
 		if (index >= width)
-			t->getComponent<TileComponent>().tileDir[TileComponent::up] = gridTiles[index - width];
+			t->getC<TileComponent>().tileDir[TileComponent::up] = gridTiles[index - width];
 
 	}
 }
@@ -153,11 +145,18 @@ void IsometricGrid::screenFromGrid(Vector2D& screen, Vector2D& grid)
 	screen.y = (grid.x + grid.y) * (scaledSize / 4) - (scaledSize / 2) + yOffSet;
 }
 
-
 void IsometricGrid::gridFromScreen(Vector2D& grid, Vector2D& screen)
 {
 	grid.x = std::floor(((screen.x - xOffSet) / (scaledSize / 2) + (screen.y - yOffSet) / (scaledSize / 4)) / 2);
 	grid.y = std::floor(((screen.y - yOffSet) / (scaledSize / 4) - (screen.x - xOffSet) / (scaledSize / 2)) / 2);
+}
+
+Vector2D& IsometricGrid::gridFromScreen(Vector2D& grid, Vector2D& screen, int height)
+{
+	int zOffSet = -(height * scaledSize / 4);
+	grid.x = std::floor(((screen.x - xOffSet) / (scaledSize / 2) + (screen.y - yOffSet - zOffSet) / (scaledSize / 4)) / 2);
+	grid.y = std::floor(((screen.y - yOffSet - zOffSet) / (scaledSize / 4) - (screen.x - xOffSet) / (scaledSize / 2)) / 2);
+	return grid;
 }
 
 

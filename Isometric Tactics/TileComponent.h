@@ -25,8 +25,8 @@ public:
 	{
 		right,
 		down,
+		up,
 		left,
-		up
 
 	};
 
@@ -36,7 +36,7 @@ public:
 
 	//getters and setter
 	Vector2D getScreen() const { return screen; }
-	void addScreenY(int y) { screen.y += y; }
+	void addHeight(int aHeight, int scaledSize);
 
 	Vector2D getGrid() const { return grid; }
 

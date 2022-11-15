@@ -8,13 +8,12 @@ WindowManager::~WindowManager()
 
 void WindowManager::initialize(const char* windowTitle, int xpos, int ypos, int width, int height, bool isFullscreen)
 {
-	fullscreen = isFullscreen;
+	//fullscreen = isFullscreen;
 
 
-	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
-	{
+	if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
 		std::cout << "Subsystems Initialised..." << std::endl;
-		window = SDL_CreateWindow(windowTitle, xpos, ypos, width, height, fullscreen);
+		window = SDL_CreateWindow(windowTitle, xpos, ypos, width, height, isFullscreen);
 		windowHeight = height;
 		windowWidth = width;
 

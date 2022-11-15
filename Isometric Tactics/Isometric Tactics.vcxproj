@@ -191,6 +191,7 @@
     <Image Include="Assets\map0_ts.png" />
     <Image Include="Assets\map1_ts.png" />
     <Image Include="Assets\map2_ts.png" />
+    <Image Include="Assets\map4_ts.png" />
     <Image Include="Assets\ph_1.png" />
     <Image Include="Assets\ph_2.png" />
     <Image Include="Assets\ph_3.png" />

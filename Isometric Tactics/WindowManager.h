@@ -31,6 +31,6 @@ private:
 	int windowWidth;
 	int windowHeight;
 	
-	bool initialized;
+	bool initialized = false;
 
 };

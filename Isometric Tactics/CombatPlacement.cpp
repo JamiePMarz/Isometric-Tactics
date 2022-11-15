@@ -11,30 +11,30 @@ CombatPlacement::~CombatPlacement()
 
 void CombatPlacement::update()
 {
-	auto& cpRoster = combatManager->entityManager.getGroup(EntityManager::groupRoster);
+	auto& groupRoster = combatManager->entityManager.getGroup(EntityManager::groupRoster);
+	auto& groupTiles = combatManager->entityManager.getGroup(EntityManager::groupTiles);
+	Entity* e = groupRoster[placedCount];
 
-	//LOG("in placement");
-	//add a way to choose which units to add
-	Entity* placingUnit = cpRoster[placedCount];
-
-	placingUnit->getComponent<SpriteComponent>().inBattleTeam = true;
-	placingUnit->getComponent<TransformComponent>().moveByGrid(Keyboard_Mouse::getGrid());//add height offset here?
-
-	if (Keyboard_Mouse::leftClick() && canPlaceHere())
+	e->getC<SpriteComponent>().drawBool = true;
+	for (auto& t : groupTiles)
 	{
+		Vector2D mouseG = IsometricGrid::gridFromScreen(Keyboard_Mouse::getGrid(), Keyboard_Mouse::getScreen(), t->getC<TileComponent>().height);
+		e->getC<TransformComponent>().moveByGrid(mouseG);
+	}
+
+	if (Keyboard_Mouse::leftClick() && canPlaceHere()) {
 		placeUnits();
-		LOG("left click + can place");
+		LOG("unit placed");
 	}
 		
-	if (placedCount == maxParty || placedCount == cpRoster.size())
+	if (placedCount == maxParty || placedCount == groupRoster.size()) {
 		finishPlacement();
+	}
 
-	if (Keyboard_Mouse::rightClick() && placedCount > 0)
-	{
+	if (Keyboard_Mouse::rightClick() && placedCount > 0) {
 		finishPlacement();
-		placingUnit->getComponent<SpriteComponent>().inBattleTeam = false;
+		e->getC<SpriteComponent>().drawBool = false;
 	}
-		
 }
 
 
@@ -42,15 +42,12 @@ bool CombatPlacement::canPlaceHere()
 {
 	auto& cpTiles = combatManager->entityManager.getGroup(EntityManager::groupTiles);
 
-	for (auto& t : cpTiles)
-	{
-		Vector2D tGrid = t->getComponent<TileComponent>().getGrid();
+	for (auto& t : cpTiles) {
+		Vector2D tGrid = t->getC<TileComponent>().getGrid();
 
-		if (t->getComponent<TileComponent>().placeHere && Keyboard_Mouse::hover(tGrid))
-		{
-			t->getComponent<TileComponent>().blocked = true;
-			combatManager->getUnitsTurn()->getComponent<TransformComponent>().tile = t;//need logic condition?
-			//need to swap units turn to placing unit??
+		if (t->getC<TileComponent>().placeHere && Keyboard_Mouse::hover(tGrid, t->getC<TileComponent>().height)) {
+			combatManager->getUnitsTurn()->getC<TransformComponent>().tile = t; 
+			t->getC<TileComponent>().blocked = true;
 			return true;
 		}
 	}
@@ -59,30 +56,35 @@ bool CombatPlacement::canPlaceHere()
 
 void CombatPlacement::placeUnits()
 {
-	auto& cpRoster = combatManager->entityManager.getGroup(EntityManager::groupRoster);
+	auto& groupRoster = combatManager->entityManager.getGroup(EntityManager::groupRoster);
+	auto& groupTiles = combatManager->entityManager.getGroup(EntityManager::groupTiles);
+	Entity* e = groupRoster[placedCount];
+	//combatManager->setUnitsTurn(e);
 
-	Entity* placingUnit = cpRoster[placedCount];
-	placingUnit->getComponent<SpriteComponent>().inBattleTeam = true;
+	e->getC<SpriteComponent>().drawBool = true;
 
-	placingUnit->getComponent<TransformComponent>().moveByGrid(Keyboard_Mouse::getGrid());
+	for (auto& t : groupTiles)
+	{
+		Vector2D mouseG = IsometricGrid::gridFromScreen(Keyboard_Mouse::getGrid(), Keyboard_Mouse::getScreen(), t->getC<TileComponent>().height);
+		e->getC<TransformComponent>().moveByGrid(mouseG);
+	}
 	placedCount++;
 }
 
 void CombatPlacement::finishPlacement()
 {
-	auto& cpRoster = combatManager->entityManager.getGroup(EntityManager::groupRoster);
-	auto& cpTiles = combatManager->entityManager.getGroup(EntityManager::groupTiles);
+	auto& groupRoster = combatManager->entityManager.getGroup(EntityManager::groupRoster);
+	auto& groupTiles = combatManager->entityManager.getGroup(EntityManager::groupTiles);
 
 	LOG("placement finished");
 
-	if (placedCount < maxParty && cpRoster.size() < placedCount)
-		Entity* placingUnit = cpRoster[placedCount];
+	if (placedCount < maxParty && groupRoster.size() < placedCount) {
+		Entity* e = groupRoster[placedCount];
+	}
 
 	combatManager->state = CombatManager::menu;
-	LOG("state is menu");
 	placedCount = 0;
-	for (auto& t : cpTiles)
-	{
-		t->getComponent<TileComponent>().placeHere = false;
+	for (auto& t : groupTiles) {
+		t->getC<TileComponent>().placeHere = false;
 	}
 }

@@ -14,6 +14,7 @@ public:
 
 	//controls
 	static bool hover(Vector2D& vector);
+	static bool hover(Vector2D& vector, int height);
 
 	static bool leftClick();
 	static bool rightClick();

@@ -18,12 +18,10 @@ TileComponent::TileComponent(int srcX, int srcY, int xpos, int ypos, int tileSiz
 
 	gridIndex = index;
 
-	if (src.x == 0 && src.y == 0)
-	{
+	if (src.x == 0 && src.y == 0) {
 		selectable = false;
 		blocked = true;
 	}
-
 }
 
 TileComponent::~TileComponent()
@@ -34,10 +32,6 @@ TileComponent::~TileComponent()
 void TileComponent::draw()
 {
 	TextureManager::drawTexture(texture, src, dest, SDL_FLIP_NONE);
-
-	//show hover
-	if (Keyboard_Mouse::hover(grid) && selectable)
-		TextureManager::drawTileTextures("tile_cusor", dest);
 
 	//within range
 	if (entity->hasGroup(EntityManager::groupRange))
@@ -51,10 +45,14 @@ void TileComponent::draw()
 	if (placeHere)
 		TextureManager::drawTileTextures("tile_cusor", dest);
 
+	if (Keyboard_Mouse::hover(grid, height) && selectable)
+		TextureManager::drawTileTextures("tile_cusor", dest);
+
+#if MY_DEBUG == 1
 	//blocked indicator
 	if (blocked)
 		TextureManager::drawTileTextures("collider", dest);
-
+#endif
 }
 
 
@@ -66,4 +64,10 @@ void TileComponent::update()
 
 	if (CombatManager::getCombatState() != CombatManager::move)
 		entity->delGroup(EntityManager::groupRange);
+}
+
+void TileComponent::addHeight(int aHeight, int scaledSize)
+{
+	height = aHeight; 
+	screen.y -= (scaledSize / 4 * height);
 }

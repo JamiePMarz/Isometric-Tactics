@@ -15,11 +15,13 @@ public:
 
 	bool unitCanMoveHere();
 	void showMoveRange();
-	void pathFinding(TileComponent* tileComp, int move);
+	void pathFinding(TileComponent* tileComp, int move, int* directions);
 	
 	//getters and setters
 
 	//pub vars
+	static int cntPF;
+	static bool showPath;
 
 
 private:

@@ -190,5 +190,8 @@
     <Image Include="Assets\map2_ts.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Assets\map4_ts.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

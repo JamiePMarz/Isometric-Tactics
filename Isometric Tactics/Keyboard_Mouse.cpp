@@ -22,8 +22,7 @@ void Keyboard_Mouse::setMouseXY(int& mouseX, int& mouseY)
 
 bool Keyboard_Mouse::leftClick()
 {
-	if (event.button.button == SDL_BUTTON_LEFT && event.button.state == SDL_PRESSED)
-	{
+	if (event.button.button == SDL_BUTTON_LEFT && event.button.state == SDL_PRESSED) {
 		//LOG("left mb pressed");
 		return  true;
 	}
@@ -33,18 +32,27 @@ bool Keyboard_Mouse::leftClick()
 
 bool Keyboard_Mouse::rightClick()
 {
-	if (event.button.button == SDL_BUTTON_RIGHT && event.button.state == SDL_PRESSED)
-	{
-		//LOG(right mb pressed);
+	if (event.button.button == SDL_BUTTON_RIGHT && event.button.state == SDL_PRESSED) {
+		//LOG("right mb pressed");
 		return  true;
 	}
 	else
 		return false;
 }
 
+
 bool Keyboard_Mouse::hover(Vector2D& vector)
 {
 	if (vector == grid || vector == screen)
+		return true;
+	else
+		return false;
+}
+
+bool Keyboard_Mouse::hover(Vector2D& vector, int height)
+{
+	Vector2D g = IsometricGrid::gridFromScreen(grid, screen, height);
+	if (g == vector)
 		return true;
 	else
 		return false;
